@@ -1,2 +1,3 @@
 # hexagonal-architecture-adventures
-Messing around with Hexagonal Architecture 
+
+Messing around with Hexagonal Architecture
