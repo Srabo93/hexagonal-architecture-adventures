@@ -1,6 +1,4 @@
-import { ForCalculatingtax } from "../inbound_ports/ForCalculatingTax.ts";
-
-export class TaxCalculator implements ForCalculatingtax {
+export class TaxCalculator {
   taxDependOnCountry(countryTax: number, amount: number): number {
     return Number((amount * countryTax).toFixed(2));
   }

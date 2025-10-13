@@ -1,7 +1,7 @@
 {
   "tasks": {
     "server": "deno run --watch --allow-read --allow-write --allow-net  ./api/http/server.ts",
-    "sqlite:seed": "deno run --allow-read --allow-write ./adapters/outbound_adapters/db/seedCountryTaxes.ts"
+    "sqlite:seed": "deno run --allow-read --allow-write ./spi/db/sqlite.ts"
   },
   "imports": {
     "@adapters/": "./adapters/",
