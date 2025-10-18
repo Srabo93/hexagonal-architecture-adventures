@@ -9,7 +9,7 @@ const router = new Router();
 router.get("/:amount", (ctx) => {
   const dbRepo = new InMemoryCountryTaxesDB();
   const calculator = new TaxCalculatorApi(dbRepo);
-  ctx.response.body = calculator.taxDefault(Number(ctx.params.amount));
+  ctx.response.body = calculator.taxOnDefault(Number(ctx.params.amount));
 });
 
 router.get("/calc/:country/:amount", (ctx) => {
@@ -17,7 +17,7 @@ router.get("/calc/:country/:amount", (ctx) => {
   const dbRepo = new CountryTaxSqliteRepository(db);
 
   const calculator = new TaxCalculatorApi(dbRepo);
-  ctx.response.body = calculator.taxForCountry(
+  ctx.response.body = calculator.taxDependOnCountry(
     ctx.params.country,
     Number(ctx.params.amount),
   );
