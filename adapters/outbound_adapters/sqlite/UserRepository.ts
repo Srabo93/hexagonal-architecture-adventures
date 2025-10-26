@@ -1,9 +1,8 @@
 import { DB } from "https://deno.land/x/sqlite@v3.9.0/mod.ts";
-import { UserRecord } from "./models/UserRecord.ts";
-import { ForGettingUsers } from "@application/outbound_ports/ForGettingUser.ts";
 import { User } from "@application/services/User.ts";
+import { UserPersistence } from "@application/outbound_ports/UserPersistence.ts";
 
-export class UserRepository implements ForGettingUsers {
+export class UserRepository implements UserPersistence {
   private db;
   constructor(db: DB) {
     this.db = db;
@@ -22,13 +21,13 @@ export class UserRepository implements ForGettingUsers {
   `);
   }
 
-  findAll(): UserRecord[] {
+  findAll(): User[] {
     throw new Error("Method not implemented.");
   }
-  findById(id: string): UserRecord | null {
+  findById(id: string): User | null {
     throw new Error("Method not implemented.");
   }
-  findByEmail(email: string): UserRecord | null {
+  findByEmail(email: string): User | null {
     throw new Error("Method not implemented.");
   }
   save(user: User): void {

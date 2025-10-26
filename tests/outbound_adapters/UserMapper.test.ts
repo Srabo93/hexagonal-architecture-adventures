@@ -1,5 +1,4 @@
 import { assertEquals } from "@std/assert";
-import { UserMapper } from "@adapters/outbound_adapters/sqlite/mappers/UserMapper.ts";
 import { User } from "@application/services/User.ts";
 import { InMemoryUserRepository } from "./interactor/InMemoryUserRepository.ts";
 
@@ -26,17 +25,21 @@ dummyUsers.forEach((user) => {
   memoryUserRepo.save(user);
 });
 
-Deno.test("UserMapper maps sql persistence entity to domain entity", () => {
-  const presitenceUser = memoryUserRepo.findByEmail("john@doe.com");
+Deno.test(
+  "UserMapper maps sql persistence entity to domain entity to avoid property corruption",
+  () => {
+    const presitenceUser = memoryUserRepo.findByEmail("john@doe.com");
+    const domainUser = User.create({
+      name: "john",
+      email: "john@doe.com",
+      role: "user",
+    });
 
-  if (presitenceUser === null) {
-    console.log("for some reason no user in the db");
-    return;
-  }
-  const toDomain = UserMapper.toDomain(presitenceUser);
+    if (presitenceUser === null) {
+      console.log("for some reason no user in the db");
+      return;
+    }
 
-  assertEquals(
-    toDomain,
-    User.create({ name: "john", email: "john@doe.com", role: "user" }),
-  );
-});
+    assertEquals(presitenceUser, domainUser);
+  },
+);

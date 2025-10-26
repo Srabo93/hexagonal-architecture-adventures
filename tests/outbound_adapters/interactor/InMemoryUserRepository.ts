@@ -1,9 +1,10 @@
 import { randomUUID } from "node:crypto";
-import { UserRecord } from "@adapters/outbound_adapters/sqlite/models/UserRecord.ts";
 import { User } from "@application/services/User.ts";
-import { ForGettingUsers } from "@application/outbound_ports/ForGettingUser.ts";
+import { UserPersistence } from "@application/outbound_ports/UserPersistence.ts";
+import { UserRecord } from "@adapters/anti_corruption_layer/sqlite/UserRecord.ts";
+import { UserMapper } from "@adapters/anti_corruption_layer/sqlite/UserMapper.ts";
 
-export class InMemoryUserRepository implements ForGettingUsers {
+export class InMemoryUserRepository implements UserPersistence {
   private memory: Map<string, UserRecord>;
 
   constructor(initialData: UserRecord[] = []) {
@@ -14,20 +15,22 @@ export class InMemoryUserRepository implements ForGettingUsers {
     );
   }
 
-  findAll(): UserRecord[] {
-    return Array.from(this.memory.values()).map((record) => record);
+  findAll(): User[] {
+    return Array.from(this.memory.values()).map((record) =>
+      UserMapper.toDomain(record),
+    );
   }
 
-  findById(id: string): UserRecord | null {
+  findById(id: string): User | null {
     const record = this.memory.get(id);
-    return record ? record : null;
+    return record ? UserMapper.toDomain(record) : null;
   }
 
-  findByEmail(email: string): UserRecord | null {
+  findByEmail(email: string): User | null {
     const record = Array.from(this.memory.values()).find(
       (r) => r.user.email === email,
     );
-    return record ? record : null;
+    return record ? UserMapper.toDomain(record) : null;
   }
 
   save(user: User): void {

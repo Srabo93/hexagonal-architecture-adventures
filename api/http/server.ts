@@ -2,7 +2,23 @@ import { DB } from "https://deno.land/x/sqlite@v3.9.0/mod.ts";
 import { Application, Router } from "@oak/oak";
 import { TaxCalculatorApi } from "@adapters/inbound_adapters/TaxCalculatorApi.ts";
 import { CountryTaxRepository } from "@adapters/outbound_adapters/sqlite/CountryTaxRepository.ts";
+import { UserApi } from "@adapters/inbound_adapters/UserApi.ts";
+import { InMemoryUserRepository } from "../../tests/outbound_adapters/interactor/InMemoryUserRepository.ts";
 const router = new Router();
+
+router.post("/user", async (ctx) => {
+  // const db = new DB("hexagonal_app.sqlite");
+  // const dbRepo = new CountryTaxRepository(db);
+  const dbRepo = new InMemoryUserRepository();
+
+  const { email, name, role } = await ctx.request.body.json();
+
+  const userApi = new UserApi(dbRepo);
+  const newUser = userApi.create(email, name, role);
+
+  ctx.response.status = 201;
+  ctx.response.body = newUser;
+});
 
 router.get("/:amount", (ctx) => {
   const db = new DB("hexagonal_app.sqlite");

@@ -1,5 +1,5 @@
 import { User } from "@application/services/User.ts";
-import { UserRecord } from "../models/UserRecord.ts";
+import { UserRecord } from "./UserRecord.ts";
 
 export class UserMapper {
   static toDomain(record: UserRecord): User {
