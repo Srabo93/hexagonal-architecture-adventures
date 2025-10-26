@@ -1,5 +1,5 @@
 import { assertEquals } from "@std/assert";
-import { TaxCalculator } from "./TaxCalculator.ts";
+import { TaxCalculator } from "@application/services/TaxCalculator.ts";
 
 Deno.test("TaxCalculator.taxOnDefault() should apply default 19% tax", () => {
   const calculator = new TaxCalculator();

@@ -1,7 +1,7 @@
-import { CountryTax } from "@application/entities/CountryTax.ts";
-import { CountryTaxRepository } from "@application/outbound_ports/CountryTaxRepository.ts";
+import { ForGettingCountryTax } from "@application/outbound_ports/ForGettingCountryTax.ts";
+import { CountryTax } from "@application/services/CountryTax.ts";
 
-export class InMemoryCountryTaxesDB implements CountryTaxRepository {
+export class InMemoryCountryTaxRepository implements ForGettingCountryTax {
   private memory: Map<string, CountryTax>;
 
   constructor(initialData: CountryTax[] = []) {

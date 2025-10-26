@@ -1,6 +1,6 @@
-import { CountryTax } from "../entities/CountryTax.ts";
+import { CountryTax } from "../services/CountryTax.ts";
 
-export interface CountryTaxRepository {
+export interface ForGettingCountryTax {
   findAll(): CountryTax[];
   find(country: string): CountryTax | null;
   save(countryTax: CountryTax): void;

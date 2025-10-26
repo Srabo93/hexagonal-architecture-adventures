@@ -1,10 +1,9 @@
 import { DB } from "https://deno.land/x/sqlite@v3.9.0/mod.ts";
-import { CountryTax } from "@application/entities/CountryTax.ts";
-import { CountryTaxRepository } from "@application/outbound_ports/CountryTaxRepository.ts";
+import { ForGettingCountryTax } from "@application/outbound_ports/ForGettingCountryTax.ts";
+import { CountryTax } from "@application/services/CountryTax.ts";
 
-export class CountryTaxSqliteRepository implements CountryTaxRepository {
-  private db: DB;
-
+export class CountryTaxRepository implements ForGettingCountryTax {
+  private db;
   constructor(db: DB) {
     this.db = db;
     this.setup();
