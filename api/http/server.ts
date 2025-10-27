@@ -3,7 +3,7 @@ import { Application, Router } from "@oak/oak";
 import { TaxCalculatorApi } from "@adapters/inbound_adapters/TaxCalculatorApi.ts";
 import { CountryTaxRepository } from "@adapters/outbound_adapters/sqlite/CountryTaxRepository.ts";
 import { UserApi } from "@adapters/inbound_adapters/UserApi.ts";
-import { InMemoryUserRepository } from "../../tests/outbound_adapters/interactor/InMemoryUserRepository.ts";
+import { InMemoryUserRepository } from "../../tests/outbound_adapters/doubles/InMemoryUserRepository.ts";
 const router = new Router();
 
 router.post("/user", async (ctx) => {
@@ -18,6 +18,17 @@ router.post("/user", async (ctx) => {
 
   ctx.response.status = 201;
   ctx.response.body = newUser;
+});
+
+router.get("/user/:id", async (ctx) => {
+  // const db = new DB("hexagonal_app.sqlite");
+  // const dbRepo = new CountryTaxRepository(db);
+  const dbRepo = new InMemoryUserRepository();
+
+  const userApi = new UserApi(dbRepo);
+  const retrievedUser = await userApi.findById(ctx.params.id);
+
+  ctx.response.body = retrievedUser;
 });
 
 router.get("/:amount", (ctx) => {

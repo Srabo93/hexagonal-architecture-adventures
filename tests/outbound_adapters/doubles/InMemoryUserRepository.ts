@@ -17,20 +17,20 @@ export class InMemoryUserRepository implements UserPersistence {
 
   findAll(): User[] {
     return Array.from(this.memory.values()).map((record) =>
-      UserMapper.toDomain(record),
+      UserMapper.fromPersistenceToUser(record),
     );
   }
 
   findById(id: string): User | null {
     const record = this.memory.get(id);
-    return record ? UserMapper.toDomain(record) : null;
+    return record ? UserMapper.fromPersistenceToUser(record) : null;
   }
 
   findByEmail(email: string): User | null {
     const record = Array.from(this.memory.values()).find(
       (r) => r.user.email === email,
     );
-    return record ? UserMapper.toDomain(record) : null;
+    return record ? UserMapper.fromPersistenceToUser(record) : null;
   }
 
   save(user: User): void {

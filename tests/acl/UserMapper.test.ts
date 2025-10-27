@@ -1,6 +1,9 @@
 import { assertEquals } from "@std/assert";
 import { User } from "@application/services/User.ts";
-import { InMemoryUserRepository } from "./interactor/InMemoryUserRepository.ts";
+import userStub from "../inbound_adapters/stubs/user.json" with { type: "json" };
+import { UserMapper } from "@adapters/anti_corruption_layer/sqlite/UserMapper.ts";
+import { UserApiRecord } from "@adapters/anti_corruption_layer/sqlite/UserRecord.ts";
+import { InMemoryUserRepository } from "../outbound_adapters/doubles/InMemoryUserRepository.ts";
 
 const dummyUsers: User[] = [
   User.create({
@@ -41,5 +44,17 @@ Deno.test(
     }
 
     assertEquals(presitenceUser, domainUser);
+  },
+);
+
+Deno.test(
+  "UserMapper maps user REST resource to domain entity correctly",
+  () => {
+    const jsonUserStub: UserApiRecord = userStub as unknown as UserApiRecord;
+
+    const domainUser = UserMapper.fromUserApiToDomain(jsonUserStub);
+
+    assertEquals(domainUser.name, jsonUserStub.name);
+    assertEquals(domainUser.email, jsonUserStub.email.toLowerCase());
   },
 );

@@ -1,7 +1,7 @@
 import { assertEquals } from "@std/assert";
 import { TaxCalculatorApi } from "@adapters/inbound_adapters/TaxCalculatorApi.ts";
 import { CountryTax } from "@application/services/CountryTax.ts";
-import { InMemoryCountryTaxRepository } from "../outbound_adapters/interactor/InMemoryCountryTaxRepository.ts";
+import { InMemoryCountryTaxRepository } from "../outbound_adapters/doubles/InMemoryCountryTaxRepository.ts";
 
 Deno.test("TaxCalculator Api calculates default correctly", () => {
   const inMemRepo = new InMemoryCountryTaxRepository([]);
