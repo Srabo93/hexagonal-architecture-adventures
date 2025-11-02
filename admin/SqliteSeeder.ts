@@ -1,12 +1,12 @@
-import { CountryTaxRepository } from "@adapters/outbound_adapters/sqlite/CountryTaxRepository.ts";
-import { UserRepository } from "@adapters/outbound_adapters/sqlite/UserRepository.ts";
 import { CountryTax } from "@application/services/CountryTax.ts";
 import { User } from "@application/services/User.ts";
+import { CountryTaxPersistence } from "@application/outbound_ports/CountryTaxPersistence.ts";
+import { UserPersistence } from "@application/outbound_ports/UserPersistence.ts";
 
 export class SqliteSeeder {
   constructor(
-    private readonly countryRepo: CountryTaxRepository,
-    private readonly userRepo: UserRepository,
+    private readonly countryRepo: CountryTaxPersistence,
+    private readonly userRepo: UserPersistence,
   ) {}
 
   public seed() {

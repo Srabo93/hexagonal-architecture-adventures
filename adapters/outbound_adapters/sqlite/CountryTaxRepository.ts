@@ -1,21 +1,10 @@
-import { DB } from "https://deno.land/x/sqlite@v3.9.0/mod.ts";
 import { CountryTax } from "@application/services/CountryTax.ts";
 import { CountryTaxPersistence } from "@application/outbound_ports/CountryTaxPersistence.ts";
 
 export class CountryTaxRepository implements CountryTaxPersistence {
   private db;
-  constructor(db: DB) {
+  constructor(db: any) {
     this.db = db;
-    this.setup();
-  }
-
-  private setup() {
-    this.db.execute(`
-      CREATE TABLE IF NOT EXISTS country_taxes (
-        country TEXT PRIMARY KEY,
-        tax_rate REAL NOT NULL
-      )
-    `);
   }
 
   findAll(): CountryTax[] {

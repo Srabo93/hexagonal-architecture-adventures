@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "server": "deno run --watch --allow-read --allow-write --allow-net  ./api/http/server.ts",
+    "server": "deno run --watch --allow-read --allow-write --allow-net --allow-env  ./server.ts",
     "sqlite:seed": "deno run --allow-read --allow-write ./admin/seed.ts"
   },
   "imports": {
