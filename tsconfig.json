@@ -24,6 +24,19 @@
     // Some stricter flags (disabled by default)
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "noPropertyAccessFromIndexSignature": false
+    "noPropertyAccessFromIndexSignature": false,
+
+    // Path Imports
+    "baseUrl": ".",
+    "paths": {
+      "#Adapters/*": ["Adapters/*"],
+      "#Application/*": ["Application/*"],
+
+      "#Aggregates/*": ["Application/Aggregates/*"],
+      "#Port/Driven/*": ["Application/Driven/*"],
+      "#Port/Driving/*": ["Application/Driving/*"],
+      "#Entities/*": ["Application/Entities/*"],
+      "#ValueObjects/*": ["Application/ValueObjects/*"]
+    }
   }
 }

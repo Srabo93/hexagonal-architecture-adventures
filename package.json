@@ -3,6 +3,15 @@
   "module": "index.ts",
   "type": "module",
   "private": true,
+  "imports": {
+    "#Adapters/*": "./Adapters/*",
+    "#Application/*": "./Application/*",
+    "#Aggregates/*": "./Application/Aggregates/*",
+    "#Port/Driven/*": "./Application/Driven/*",
+    "#Port/Driving/*": "./Application/Driving/*",
+    "#Entities/*": "./Application/Entities/*",
+    "#ValueObjects/*": "./Application/ValueObjects/*"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
