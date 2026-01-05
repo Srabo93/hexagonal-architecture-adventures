@@ -1,11 +1,15 @@
 import type { Review } from "#Application/Entities/Review.ts";
-import type { ISBN } from "#Application/ValueObjects/ISBN.ts";
-import type { ReadingStatus } from "#Application/ValueObjects/ReadingStatus.ts";
+import type { TrackedBook } from "#Application/Entities/TrackedBook.ts";
 import type { UserId } from "#Application/ValueObjects/UserId.ts";
 
 export interface UserUseCases {
-  trackBook(userId: UserId, isbn: ISBN, status: ReadingStatus): void;
-  writeReview(userId: UserId, isbn: ISBN, review: Review): void;
-  getTrackedBooks(userId: UserId): Map<ISBN, ReadingStatus>;
-  getReviews(userId: UserId): Map<ISBN, Review>;
+  createUser(userId: string, name: string, email: string): Promise<void>;
+  trackBook(userId: string, isbn: string, status: string): Promise<void>;
+  writeReview(
+    userId: string,
+    isbn: string,
+    review: { reviewId: number; rating: number; comment: string },
+  ): Promise<void>;
+  getTrackedBooks(userId: string): Promise<TrackedBook[]>;
+  getReviews(userId: UserId): Promise<Review[]>;
 }

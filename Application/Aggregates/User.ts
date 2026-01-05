@@ -42,9 +42,9 @@ export class User {
 
       reviews: Array.from(this._reviews.entries()).map(([isbn, review]) => ({
         isbn: isbn.isbn,
-        reviewId: review.reviewId,
-        rating: review.rating,
-        comment: review.comment,
+        reviewId: review.reviewId.id,
+        rating: review.rating.rating,
+        comment: review.comment.comment,
       })),
     };
   }
@@ -59,6 +59,10 @@ export class User {
 
   public get userId(): UserId {
     return this._userId;
+  }
+
+  public get trackedBooks(): TrackedBook[] {
+    return Array.from(this._trackedBooks.values());
   }
 
   public trackBook(isbn: ISBN, status: ReadingStatus) {

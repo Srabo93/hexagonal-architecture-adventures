@@ -58,7 +58,7 @@ export class JsonUserRepository implements UserRepository {
 
   async save(user: User): Promise<void> {
     const users = await this.loadAll();
-    const snapshot = user.toSnapshot();
+    const snapshot = user.toSnapshot() satisfies UserSnapshot;
 
     const index = users.findIndex((u) => u.userId === snapshot.userId);
 
