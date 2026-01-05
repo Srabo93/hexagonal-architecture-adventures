@@ -1,12 +1,12 @@
 export class ReviewId {
   private constructor(private _reviewId: string) {}
 
-  public set id(value: string) {
-    if (!this._reviewId) {
+  public static parse(value: string) {
+    if (!value) {
       throw new Error("no uuid provided");
     }
 
-    this._reviewId = value;
+    return new ReviewId(value);
   }
 
   public get id(): string {

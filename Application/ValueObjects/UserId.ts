@@ -1,12 +1,12 @@
 export class UserId {
   private constructor(private _uuid: string) {}
 
-  public set uuid(value: string) {
-    if (!this.uuid) {
+  public static parse(value: string) {
+    if (!value) {
       throw new Error("no uuid provided");
     }
 
-    this._uuid = value;
+    return new UserId(value);
   }
 
   public get uuid(): string {

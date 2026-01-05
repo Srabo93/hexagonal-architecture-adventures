@@ -15,7 +15,7 @@ export class Title {
     return new Title(normalized);
   }
 
-  public toString(): string {
+  public get title(): string {
     return this.value;
   }
 }

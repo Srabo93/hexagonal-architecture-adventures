@@ -1,11 +1,11 @@
 export class Email {
   private constructor(private _email: string) {}
 
-  public parse(email: string) {
+  public static parse(email: string) {
     if (!email.includes("@")) {
       throw new Error("this is not a valid email");
     }
-    this._email = email;
+    return new Email(email);
   }
 
   public get email(): string {

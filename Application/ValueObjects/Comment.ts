@@ -1,7 +1,7 @@
 export class Comment {
   private constructor(private _comment: string) {}
 
-  public parse(comment: string) {
+  public static parse(comment: string) {
     if (comment.length === 0) {
       throw new Error("empty comments are not allowed");
     }

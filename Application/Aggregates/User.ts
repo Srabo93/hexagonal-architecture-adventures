@@ -7,13 +7,47 @@ import { ReadingStatus } from "#Application/ValueObjects/ReadingStatus.ts";
 import type { UserId } from "#Application/ValueObjects/UserId.ts";
 
 export class User {
-  constructor(
+  private constructor(
     private _userId: UserId,
     private _name: Name,
     private _email: Email,
     private _trackedBooks: Map<ISBN, TrackedBook>,
     private _reviews: Map<ISBN, Review>,
   ) {}
+
+  static create(userId: UserId, name: Name, email: Email): User {
+    return new User(userId, name, email, new Map(), new Map());
+  }
+
+  static rehydrate(
+    userId: UserId,
+    name: Name,
+    email: Email,
+    trackedBooks: Map<ISBN, TrackedBook>,
+    review: Map<ISBN, Review>,
+  ): User {
+    return new User(userId, name, email, trackedBooks, review);
+  }
+
+  toSnapshot() {
+    return {
+      userId: this._userId.uuid,
+      name: this._name.fullName(),
+      email: this._email.email,
+
+      trackedBooks: Array.from(this._trackedBooks.values()).map((tb) => ({
+        isbn: tb.isbn.isbn,
+        status: tb.status,
+      })),
+
+      reviews: Array.from(this._reviews.entries()).map(([isbn, review]) => ({
+        isbn: isbn.isbn,
+        reviewId: review.reviewId,
+        rating: review.rating,
+        comment: review.comment,
+      })),
+    };
+  }
 
   public get name(): Name {
     return this._name;

@@ -29,7 +29,7 @@ export class Name {
     return this._lastName;
   }
 
-  public toString(): string {
+  public fullName(): string {
     return `${this._firstName} ${this._lastName}`;
   }
 }

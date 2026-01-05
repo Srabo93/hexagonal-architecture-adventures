@@ -15,7 +15,7 @@ export class ISBN {
     return new ISBN(normalized);
   }
 
-  public toString(): string {
+  public get isbn(): string {
     return this._isbn;
   }
 }
