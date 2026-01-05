@@ -54,8 +54,11 @@ export class CLIUserAdapter implements UserUseCases {
     return user.trackedBooks;
   }
 
-  async getReviews(userId: UserId): Promise<Review[]> {
-    throw new Error("Method not implemented.");
+  async getReviews(userId: string) {
+    const user = await this.userRepo.findById(UserId.parse(userId));
+    if (!user) throw new Error("User not found");
+
+    return user.reviews;
   }
 
   async createUser(userId: string, name: string, email: string): Promise<void> {

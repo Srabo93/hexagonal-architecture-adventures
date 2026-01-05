@@ -1,6 +1,5 @@
 import type { Review } from "#Application/Entities/Review.ts";
 import type { TrackedBook } from "#Application/Entities/TrackedBook.ts";
-import type { UserId } from "#Application/ValueObjects/UserId.ts";
 
 export interface UserUseCases {
   createUser(userId: string, name: string, email: string): Promise<void>;
@@ -11,5 +10,7 @@ export interface UserUseCases {
     review: { reviewId: number; rating: number; comment: string },
   ): Promise<void>;
   getTrackedBooks(userId: string): Promise<TrackedBook[]>;
-  getReviews(userId: UserId): Promise<Review[]>;
+  getReviews(
+    userId: string,
+  ): Promise<ReadonlyArray<{ isbn: string; review: Review }>>;
 }

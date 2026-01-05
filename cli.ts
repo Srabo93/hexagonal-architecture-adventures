@@ -55,4 +55,18 @@ program
     console.log("Review written successfully");
   });
 
+program
+  .command("get-written-reviews")
+  .requiredOption("--user <userId>")
+  .action(async (opts) => {
+    const reviews = await cliUserAdapter.getReviews(opts.user);
+    console.log(reviews);
+    console.log("Reviews for books:");
+    reviews.forEach((review) => {
+      console.log(
+        `Book ISBN: ${review.isbn} \n Comment: ${review.review.comment.comment} \n Rating: ${review.review.rating.rating} \n ReviewID: ${review.review.reviewId.id}`,
+      );
+    });
+  });
+
 program.parse(process.argv);

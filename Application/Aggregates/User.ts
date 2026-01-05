@@ -65,6 +65,13 @@ export class User {
     return Array.from(this._trackedBooks.values());
   }
 
+  public get reviews(): ReadonlyArray<{ isbn: string; review: Review }> {
+    return Array.from(this._reviews.entries()).map(([isbn, review]) => ({
+      isbn,
+      review,
+    }));
+  }
+
   public trackBook(isbn: ISBN, status: ReadingStatus) {
     if (this._trackedBooks.has(isbn.isbn)) {
       throw new Error("book already tracked");
