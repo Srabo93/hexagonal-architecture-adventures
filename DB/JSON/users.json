@@ -7,8 +7,31 @@
       {
         "isbn": "asdf234",
         "status": "WantToRead"
+      },
+      {
+        "isbn": "foobar23",
+        "status": "Read"
+      },
+      {
+        "isbn": "foosdfbar23",
+        "status": "Read"
+      },
+      {
+        "isbn": "fooasdsdfbar23",
+        "status": "Read"
+      },
+      {
+        "isbn": "fooasdsdfbar23sd",
+        "status": "Read"
       }
     ],
-    "reviews": []
+    "reviews": [
+      {
+        "isbn": "foobar23",
+        "reviewId": "15a23ba0-bd85-49dc-99ab-4f12f89aaf11",
+        "rating": 5,
+        "comment": "This is quite good"
+      }
+    ]
   }
 ]

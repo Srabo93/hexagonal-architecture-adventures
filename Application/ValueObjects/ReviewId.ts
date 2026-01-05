@@ -1,7 +1,7 @@
 export class ReviewId {
   private constructor(private _reviewId: string) {}
 
-  public static parse(value: string) {
+  public static parse(value: any) {
     if (!value) {
       throw new Error("no uuid provided");
     }

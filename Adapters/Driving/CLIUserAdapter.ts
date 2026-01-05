@@ -1,12 +1,15 @@
 import { User } from "#Application/Aggregates/User.ts";
 import type { UserRepository } from "#Application/Driven/UserRepository.ts";
 import type { UserUseCases } from "#Application/Driving/UserUseCases.ts";
-import type { Review } from "#Application/Entities/Review.ts";
+import { Review } from "#Application/Entities/Review.ts";
 import type { TrackedBook } from "#Application/Entities/TrackedBook.ts";
+import { Comment } from "#Application/ValueObjects/Comment.ts";
 import { Email } from "#Application/ValueObjects/Email.ts";
 import { ISBN } from "#Application/ValueObjects/ISBN.ts";
 import { Name } from "#Application/ValueObjects/Name.ts";
+import { Rating } from "#Application/ValueObjects/Rating.ts";
 import { parseReadingStatus } from "#Application/ValueObjects/ReadingStatus.ts";
+import { ReviewId } from "#Application/ValueObjects/ReviewId.ts";
 import { UserId } from "#Application/ValueObjects/UserId.ts";
 
 export class CLIUserAdapter implements UserUseCases {
@@ -15,9 +18,19 @@ export class CLIUserAdapter implements UserUseCases {
   async writeReview(
     userId: string,
     isbn: string,
-    review: { reviewId: number; rating: number; comment: string },
+    review: { reviewId: any; rating: number; comment: string },
   ): Promise<void> {
-    throw new Error("Method not implemented.");
+    const user = await this.userRepo.findById(UserId.parse(userId));
+    if (!user) throw new Error("User not found");
+    user.writeReview(
+      ISBN.parse(isbn),
+      new Review(
+        ReviewId.parse(review.reviewId),
+        Rating.parseInteger(Number(review.rating)),
+        Comment.parse(review.comment),
+      ),
+    );
+    await this.userRepo.save(user);
   }
 
   async trackBook(userId: string, isbn: string, status: string): Promise<void> {
@@ -25,7 +38,13 @@ export class CLIUserAdapter implements UserUseCases {
     if (!user) throw new Error("User not found");
 
     user.trackBook(ISBN.parse(isbn), parseReadingStatus(status));
-    await this.userRepo.save(user);
+    try {
+      await this.userRepo.save(user);
+    } catch (error) {
+      throw error;
+    }
+
+    return;
   }
 
   async getTrackedBooks(userId: string): Promise<TrackedBook[]> {

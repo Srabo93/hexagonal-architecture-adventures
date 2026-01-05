@@ -19,12 +19,8 @@ program
   .requiredOption("--isbn <isbn>")
   .requiredOption("--status <status>")
   .action(async (opts) => {
-    const trackedBooks = cliUserAdapter.trackBook(
-      opts.user,
-      opts.isbn,
-      opts.status,
-    );
-    console.log(trackedBooks);
+    await cliUserAdapter.trackBook(opts.user, opts.isbn, opts.status);
+    console.log("Book tracked successfully");
   });
 
 program
@@ -43,23 +39,20 @@ program
     });
   });
 
-// program
-//   .command("write-review")
-//   .requiredOption("--user <userId>")
-//   .requiredOption("--isbn <isbn>")
-//   .requiredOption("--rating <rating>")
-//   .requiredOption("--comment <comment>")
-//   .action(async (opts) => {
-//     const review = new Review(
-//       ReviewId.generate(),
-//       Rating.parse(Number(opts.rating)),
-//       Comment.parse(opts.comment),
-//     );
-//     await this.writeReview(
-//       UserId.parse(opts.user),
-//       ISBN.parse(opts.isbn),
-//       review,
-//     );
-//   });
+program
+  .command("write-review")
+  .requiredOption("--user <userId>")
+  .requiredOption("--isbn <isbn>")
+  .requiredOption("--rating <rating>")
+  .requiredOption("--comment <comment>")
+  .action(async (opts) => {
+    const review = {
+      reviewId: crypto.randomUUID(),
+      rating: opts.rating,
+      comment: opts.comment,
+    };
+    await cliUserAdapter.writeReview(opts.user, opts.isbn, review);
+    console.log("Review written successfully");
+  });
 
 program.parse(process.argv);

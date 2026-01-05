@@ -30,7 +30,7 @@ export class JsonUserRepository implements UserRepository {
     const persistedUser = users.find((u) => u.userId === id.uuid);
     const reviews = new Map(
       persistedUser?.reviews.map((r) => [
-        ISBN.parse(r.isbn),
+        ISBN.parse(r.isbn).isbn,
         new Review(
           ReviewId.parse(r.reviewId),
           Rating.parseInteger(r.rating),
@@ -40,7 +40,7 @@ export class JsonUserRepository implements UserRepository {
     );
     const trackedBooks = new Map(
       persistedUser?.trackedBooks.map((tb) => [
-        ISBN.parse(tb.isbn),
+        ISBN.parse(tb.isbn).isbn,
         new TrackedBook(ISBN.parse(tb.isbn), tb.status),
       ]),
     );
@@ -56,7 +56,7 @@ export class JsonUserRepository implements UserRepository {
       : null;
   }
 
-  async save(user: User): Promise<void> {
+  async save(user: User): Promise<boolean | Error> {
     const users = await this.loadAll();
     const snapshot = user.toSnapshot() satisfies UserSnapshot;
 
@@ -68,6 +68,18 @@ export class JsonUserRepository implements UserRepository {
       users.push(snapshot);
     }
 
-    await Bun.write(this.filepath, JSON.stringify(users, null, 2));
+    try {
+      const isSuccessfull = await Bun.write(
+        this.filepath,
+        JSON.stringify(users, null, 2),
+      );
+
+      if (!(typeof isSuccessfull === "number")) {
+        throw new Error("Something went wrong to persist the aggregate User");
+      }
+    } catch (error) {
+      throw error;
+    }
+    return true;
   }
 }
