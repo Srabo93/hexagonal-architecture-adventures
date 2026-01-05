@@ -11,6 +11,7 @@ import { Rating } from "#Application/ValueObjects/Rating.ts";
 import { parseReadingStatus } from "#Application/ValueObjects/ReadingStatus.ts";
 import { ReviewId } from "#Application/ValueObjects/ReviewId.ts";
 import { UserId } from "#Application/ValueObjects/UserId.ts";
+import type { UserReviewDTO, UserTrackedBookDTO } from "./UserDTO";
 
 export class CLIUserAdapter implements UserUseCases {
   constructor(private readonly userRepo: UserRepository) {}
@@ -47,18 +48,26 @@ export class CLIUserAdapter implements UserUseCases {
     return;
   }
 
-  async getTrackedBooks(userId: string): Promise<TrackedBook[]> {
+  async getTrackedBooks(userId: string): Promise<UserTrackedBookDTO[]> {
     const user = await this.userRepo.findById(UserId.parse(userId));
     if (!user) throw new Error("User not found");
 
-    return user.trackedBooks;
+    return user.trackedBooks.map((tracked) => ({
+      isbn: tracked.isbn.isbn,
+      status: tracked.status,
+    }));
   }
 
-  async getReviews(userId: string) {
+  async getReviews(userId: string): Promise<UserReviewDTO[]> {
     const user = await this.userRepo.findById(UserId.parse(userId));
     if (!user) throw new Error("User not found");
 
-    return user.reviews;
+    return user.reviews.map((reviewed) => ({
+      isbn: reviewed.isbn,
+      reviewId: reviewed.review.reviewId.id,
+      rating: reviewed.review.rating.rating,
+      comment: reviewed.review.comment.comment,
+    }));
   }
 
   async createUser(userId: string, name: string, email: string): Promise<void> {

@@ -35,7 +35,7 @@ program
 
     console.log(`Tracked books for user ${opts.user}:`);
     trackedBooks.forEach((trackedBook) => {
-      console.log(`- ${trackedBook.isbn.isbn}: ${trackedBook.status}`);
+      console.log(`- ${trackedBook.isbn}: ${trackedBook.status}`);
     });
   });
 

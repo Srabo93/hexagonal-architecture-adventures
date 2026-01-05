@@ -1,5 +1,7 @@
-import type { Review } from "#Application/Entities/Review.ts";
-import type { TrackedBook } from "#Application/Entities/TrackedBook.ts";
+import type {
+  UserReviewDTO,
+  UserTrackedBookDTO,
+} from "#Adapters/Driving/UserDTO.ts";
 
 export interface UserUseCases {
   createUser(userId: string, name: string, email: string): Promise<void>;
@@ -9,8 +11,6 @@ export interface UserUseCases {
     isbn: string,
     review: { reviewId: number; rating: number; comment: string },
   ): Promise<void>;
-  getTrackedBooks(userId: string): Promise<TrackedBook[]>;
-  getReviews(
-    userId: string,
-  ): Promise<ReadonlyArray<{ isbn: string; review: Review }>>;
+  getTrackedBooks(userId: string): Promise<UserTrackedBookDTO[]>;
+  getReviews(userId: string): Promise<UserReviewDTO[]>;
 }
