@@ -60,7 +60,6 @@ program
   .requiredOption("--user <userId>")
   .action(async (opts) => {
     const reviews = await cliUserAdapter.getReviews(opts.user);
-    console.log(reviews);
     console.log("Reviews for books:");
     reviews.forEach((review) => {
       console.log(
