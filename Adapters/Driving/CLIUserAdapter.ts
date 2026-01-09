@@ -1,3 +1,4 @@
+import { Book } from "#Application/Aggregates/Book.ts";
 import { User } from "#Application/Aggregates/User.ts";
 import type { UserRepository } from "#Application/Driven/UserRepository.ts";
 import type { UserUseCases } from "#Application/Driving/UserUseCases.ts";
@@ -19,32 +20,53 @@ export class CLIUserAdapter implements UserUseCases {
     userId: string,
     isbn: string,
     review: { reviewId: any; rating: number; comment: string },
-  ): Promise<void> {
+  ): Promise<UserReviewDTO> {
     const user = await this.userRepo.findById(UserId.parse(userId));
     if (!user) throw new Error("User not found");
-    user.writeReview(
+    const newReview = user.writeReview(
       ISBN.parse(isbn),
-      new Review(
+      Review.create(
         ReviewId.parse(review.reviewId),
         Rating.parseInteger(Number(review.rating)),
         Comment.parse(review.comment),
       ),
     );
-    await this.userRepo.save(user);
+
+    const isSuccessfull = await this.userRepo.save(user);
+    if (!isSuccessfull) {
+      throw isSuccessfull;
+    }
+
+    return {
+      isbn: isbn,
+      reviewId: newReview.reviewId.id,
+      rating: newReview.rating.rating,
+      comment: newReview.comment.comment,
+    } satisfies UserReviewDTO;
   }
 
-  async trackBook(userId: string, isbn: string, status: string): Promise<void> {
+  async trackBook(
+    userId: string,
+    isbn: string,
+    status: string,
+  ): Promise<UserTrackedBookDTO> {
     const user = await this.userRepo.findById(UserId.parse(userId));
     if (!user) throw new Error("User not found");
 
-    user.trackBook(ISBN.parse(isbn), parseReadingStatus(status));
+    const newTrackedBook = user.trackBook(
+      ISBN.parse(isbn),
+      parseReadingStatus(status),
+    );
     try {
       await this.userRepo.save(user);
     } catch (error) {
       throw error;
     }
 
-    return;
+    return {
+      isbn: newTrackedBook.isbn.isbn,
+      status: newTrackedBook.status,
+    } satisfies UserTrackedBookDTO;
   }
 
   async getTrackedBooks(userId: string): Promise<UserTrackedBookDTO[]> {
@@ -69,12 +91,17 @@ export class CLIUserAdapter implements UserUseCases {
     }));
   }
 
-  async createUser(userId: string, name: string, email: string): Promise<void> {
+  async createUser(userId: string, name: string, email: string): Promise<User> {
     const user = User.create(
       UserId.parse(userId),
       Name.parse(name),
       Email.parse(email),
     );
-    await this.userRepo.save(user);
+    const isSuccessfull = await this.userRepo.save(user);
+
+    if (!isSuccessfull) {
+      throw isSuccessfull;
+    }
+    return user;
   }
 }

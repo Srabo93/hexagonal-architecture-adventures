@@ -10,7 +10,13 @@ program
   .requiredOption("--name <Name>")
   .requiredOption("--email <Email>")
   .action(async (opts) => {
-    cliUserAdapter.createUser(opts.user, opts.name, opts.email);
+    const user = await cliUserAdapter.createUser(
+      opts.user,
+      opts.name,
+      opts.email,
+    );
+    console.log(`${user.name}\n`);
+    console.log(`${user.email}\n`);
   });
 
 program
@@ -19,8 +25,13 @@ program
   .requiredOption("--isbn <isbn>")
   .requiredOption("--status <status>")
   .action(async (opts) => {
-    await cliUserAdapter.trackBook(opts.user, opts.isbn, opts.status);
+    const tracked = await cliUserAdapter.trackBook(
+      opts.user,
+      opts.isbn,
+      opts.status,
+    );
     console.log("Book tracked successfully");
+    console.log(`${JSON.stringify(tracked)}`);
   });
 
 program
@@ -51,8 +62,13 @@ program
       rating: opts.rating,
       comment: opts.comment,
     };
-    await cliUserAdapter.writeReview(opts.user, opts.isbn, review);
+    const writtenReview = await cliUserAdapter.writeReview(
+      opts.user,
+      opts.isbn,
+      review,
+    );
     console.log("Review written successfully");
+    console.log(`${JSON.stringify(writtenReview)}`);
   });
 
 program
@@ -63,7 +79,7 @@ program
     console.log("Reviews for books:");
     reviews.forEach((review) => {
       console.log(
-        `Book ISBN: ${review.isbn} \n Comment: ${review.review.comment.comment} \n Rating: ${review.review.rating.rating} \n ReviewID: ${review.review.reviewId.id}`,
+        `Book ISBN: ${review.isbn} \n Comment: ${review.comment} \n Rating: ${review.rating} \n ReviewID: ${review.reviewId}`,
       );
     });
   });

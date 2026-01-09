@@ -61,7 +61,15 @@ export class User {
       throw new Error("book already tracked");
     }
 
-    this._trackedBooks.set(isbn.isbn, new TrackedBook(isbn, status));
+    this._trackedBooks.set(isbn.isbn, TrackedBook.create(isbn, status));
+
+    const newTrackedBook = this._trackedBooks.get(isbn.isbn);
+
+    if (!newTrackedBook) {
+      throw new Error("New Tracked book could not be found");
+    }
+
+    return newTrackedBook;
   }
 
   public writeReview(isbn: ISBN, review: Review) {
@@ -76,5 +84,13 @@ export class User {
     }
 
     this._reviews.set(isbn.isbn, review);
+
+    const newReview = this._reviews.get(isbn.isbn);
+
+    if (!newReview) {
+      throw new Error("Latest Review not found");
+    }
+
+    return newReview;
   }
 }
