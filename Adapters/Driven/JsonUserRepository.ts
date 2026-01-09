@@ -14,6 +14,26 @@ import type { UserSnapshot } from "./UserSnapshot";
 export class JsonUserRepository implements UserRepository {
   constructor(private readonly filepath: string) {}
 
+  toSnapshot(user: User): UserSnapshot {
+    return {
+      userId: user.userId.uuid,
+      name: user.name.fullName(),
+      email: user.email.email,
+
+      trackedBooks: Array.from(user.trackedBooks.values()).map((tb) => ({
+        isbn: tb.isbn.isbn,
+        status: tb.status,
+      })),
+
+      reviews: Array.from(user.reviews.entries()).map(([isbn, review]) => ({
+        isbn: review.isbn,
+        reviewId: review.review.reviewId.id,
+        rating: review.review.rating.rating,
+        comment: review.review.comment.comment,
+      })),
+    };
+  }
+
   private async loadAll(): Promise<UserSnapshot[]> {
     const file = Bun.file(this.filepath);
 
@@ -58,7 +78,7 @@ export class JsonUserRepository implements UserRepository {
 
   async save(user: User): Promise<boolean | Error> {
     const users = await this.loadAll();
-    const snapshot = user.toSnapshot() satisfies UserSnapshot;
+    const snapshot = this.toSnapshot(user) satisfies UserSnapshot;
 
     const index = users.findIndex((u) => u.userId === snapshot.userId);
 

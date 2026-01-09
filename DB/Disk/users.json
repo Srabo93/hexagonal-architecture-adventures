@@ -1,0 +1,14 @@
+[
+  {
+    "userId": "u-1",
+    "name": "Armin Srabo",
+    "email": "foo@bar.baz",
+    "trackedBooks": [
+      {
+        "isbn": "fooasdsdfbar23",
+        "status": "Read"
+      }
+    ],
+    "reviews": []
+  }
+]

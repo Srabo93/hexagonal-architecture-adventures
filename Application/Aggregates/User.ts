@@ -29,24 +29,8 @@ export class User {
     return new User(userId, name, email, trackedBooks, review);
   }
 
-  toSnapshot() {
-    return {
-      userId: this._userId.uuid,
-      name: this._name.fullName(),
-      email: this._email.email,
-
-      trackedBooks: Array.from(this._trackedBooks.values()).map((tb) => ({
-        isbn: tb.isbn.isbn,
-        status: tb.status,
-      })),
-
-      reviews: Array.from(this._reviews.entries()).map(([isbn, review]) => ({
-        isbn: isbn,
-        reviewId: review.reviewId.id,
-        rating: review.rating.rating,
-        comment: review.comment.comment,
-      })),
-    };
+  public set name(value: Name) {
+    this._name = value;
   }
 
   public get name(): Name {

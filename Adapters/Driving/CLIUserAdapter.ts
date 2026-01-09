@@ -2,7 +2,6 @@ import { User } from "#Application/Aggregates/User.ts";
 import type { UserRepository } from "#Application/Driven/UserRepository.ts";
 import type { UserUseCases } from "#Application/Driving/UserUseCases.ts";
 import { Review } from "#Application/Entities/Review.ts";
-import type { TrackedBook } from "#Application/Entities/TrackedBook.ts";
 import { Comment } from "#Application/ValueObjects/Comment.ts";
 import { Email } from "#Application/ValueObjects/Email.ts";
 import { ISBN } from "#Application/ValueObjects/ISBN.ts";

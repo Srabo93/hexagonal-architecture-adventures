@@ -3,11 +3,15 @@ import type { Rating } from "#Application/ValueObjects/Rating.ts";
 import type { ReviewId } from "#Application/ValueObjects/ReviewId.ts";
 
 export class Review {
-  constructor(
-    private readonly _reviewId: ReviewId,
-    private readonly _rating: Rating,
-    private readonly _comment: Comment,
+  private constructor(
+    private _reviewId: ReviewId,
+    private _rating: Rating,
+    private _comment: Comment,
   ) {}
+
+  public static create(id: ReviewId, rating: Rating, comment: Comment) {
+    return new Review(id, rating, comment);
+  }
 
   public get reviewId(): ReviewId {
     return this._reviewId;
