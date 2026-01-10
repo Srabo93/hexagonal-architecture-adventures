@@ -1,7 +1,7 @@
 import { Command } from "commander";
 import { cliUserAdapter } from "configurator";
-
 const program = new Command();
+
 program.name("book-tracker").description("Personal Book Tracker CLI");
 
 program
@@ -15,8 +15,9 @@ program
       opts.name,
       opts.email,
     );
-    console.log(`${user.name}\n`);
-    console.log(`${user.email}\n`);
+    console.log(`${user.userId.uuid}`);
+    console.log(`${user.name.fullName().toString()}\n`);
+    console.log(`${user.email.email}\n`);
   });
 
 program

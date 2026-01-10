@@ -1,4 +1,3 @@
-import { Book } from "#Application/Aggregates/Book.ts";
 import { User } from "#Application/Aggregates/User.ts";
 import type { UserRepository } from "#Application/Driven/UserRepository.ts";
 import type { UserUseCases } from "#Application/Driving/UserUseCases.ts";
@@ -12,9 +11,13 @@ import { parseReadingStatus } from "#Application/ValueObjects/ReadingStatus.ts";
 import { ReviewId } from "#Application/ValueObjects/ReviewId.ts";
 import { UserId } from "#Application/ValueObjects/UserId.ts";
 import type { UserReviewDTO, UserTrackedBookDTO } from "./UserDTO";
+import { inject, injectable } from "tsyringe";
 
+@injectable()
 export class CLIUserAdapter implements UserUseCases {
-  constructor(private readonly userRepo: UserRepository) {}
+  constructor(
+    @inject("UserRepository") private readonly userRepo: UserRepository,
+  ) {}
 
   async writeReview(
     userId: string,

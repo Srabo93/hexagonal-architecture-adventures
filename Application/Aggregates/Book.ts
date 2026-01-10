@@ -1,7 +1,7 @@
 import type { Author } from "#Application/Entities/Author.ts";
 import { Stock } from "#Application/Entities/Stock.ts";
 import type { ISBN } from "#Application/ValueObjects/ISBN.ts";
-import type { PublishStatus } from "#Application/ValueObjects/PublishStatus.ts";
+import { PublishStatus } from "#Application/ValueObjects/PublishStatus.ts";
 import { StockAmount } from "#Application/ValueObjects/StockAmount.ts";
 import type { Title } from "#Application/ValueObjects/Title.ts";
 
@@ -25,7 +25,7 @@ export class Book {
     return this._isbn;
   }
 
-  constructor(
+  private constructor(
     private _author: Pick<Author, "authorId" | "name">,
     private _stock: Stock,
     private _published: PublishStatus,
@@ -33,11 +33,31 @@ export class Book {
     private _title: Title,
   ) {}
 
-  public purchasedBook(amount: StockAmount) {
+  static create(
+    author: Pick<Author, "authorId" | "name">,
+    stock: Stock,
+    published: PublishStatus,
+    isbn: ISBN,
+    title: Title,
+  ): Book {
+    return new Book(author, stock, published, isbn, title);
+  }
+
+  static rehydrate(
+    author: Pick<Author, "authorId" | "name">,
+    stock: Stock,
+    published: PublishStatus,
+    isbn: ISBN,
+    title: Title,
+  ): Book {
+    return new Book(author, stock, published, isbn, title);
+  }
+
+  public purchaseBook(amount: StockAmount) {
     return this.stock.subtractStock(amount);
   }
 
-  public returnedBook(amount: StockAmount) {
+  public returnBook(amount: StockAmount) {
     return this.stock.addStock(amount);
   }
 
@@ -45,15 +65,11 @@ export class Book {
     this._title = newTitle;
   }
 
-  public unpublish(status: PublishStatus) {
-    if (status === "Unpublished") {
-      this._published = status;
-    }
+  public unpublish(status: typeof PublishStatus.unpublished) {
+    this._published = status;
   }
 
-  public publish(status: PublishStatus) {
-    if (status === "Published") {
-      this._published = status;
-    }
+  public publish(status: typeof PublishStatus.published) {
+    this._published = status;
   }
 }

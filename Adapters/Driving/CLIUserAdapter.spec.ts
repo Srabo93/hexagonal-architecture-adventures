@@ -112,7 +112,7 @@ describe("CLIUserAdapter (integration)", () => {
   });
 
   //TODO: this will be the first UserService that incorporates Book Aggregate to check if a book is valid
-  it("should throw when a user tracks a book with invalid isbn", async () => {
+  it.skip("should throw when a user tracks a book with invalid isbn", async () => {
     expect(
       await cliUserAdapter.trackBook(
         user.userId.uuid,

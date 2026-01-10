@@ -10,7 +10,9 @@ import { Rating } from "#Application/ValueObjects/Rating.ts";
 import { ReviewId } from "#Application/ValueObjects/ReviewId.ts";
 import { UserId } from "#Application/ValueObjects/UserId.ts";
 import type { UserSnapshot } from "./UserSnapshot";
+import { injectable } from "tsyringe";
 
+@injectable()
 export class JsonUserRepository implements UserRepository {
   constructor(private readonly filepath: string) {}
 
@@ -51,7 +53,7 @@ export class JsonUserRepository implements UserRepository {
     const reviews = new Map(
       persistedUser?.reviews.map((r) => [
         ISBN.parse(r.isbn).isbn,
-        new Review(
+        Review.create(
           ReviewId.parse(r.reviewId),
           Rating.parseInteger(r.rating),
           Comment.parse(r.comment),
@@ -61,7 +63,7 @@ export class JsonUserRepository implements UserRepository {
     const trackedBooks = new Map(
       persistedUser?.trackedBooks.map((tb) => [
         ISBN.parse(tb.isbn).isbn,
-        new TrackedBook(ISBN.parse(tb.isbn), tb.status),
+        TrackedBook.create(ISBN.parse(tb.isbn), tb.status),
       ]),
     );
 
