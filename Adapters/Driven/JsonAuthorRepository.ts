@@ -46,7 +46,7 @@ export class JsonAuthorRepository implements AuthorRepository {
     const books = new Map(
       persistedAuthor?.publishedBooks.map((book) => [
         book.isbn,
-        Book.rehydrate(
+        Book.create(
           {
             authorId: UserId.parse(persistedAuthor.authorId),
             name: Name.parse(persistedAuthor.name),
