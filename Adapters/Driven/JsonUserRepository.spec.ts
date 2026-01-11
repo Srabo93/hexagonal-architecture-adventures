@@ -10,7 +10,7 @@ import { describe, it, expect, beforeEach, afterEach } from "bun:test";
 import { JsonUserRepository } from "./JsonUserRepository";
 import { Review } from "#Application/Entities/Review.ts";
 
-const TEST_FILE_PATH = "./DB/Disk/usertest.json";
+const TEST_FILE_PATH = "./DB/Disk/userstest.json";
 
 describe("JsonUserRepository (integration)", () => {
   let repo: JsonUserRepository;

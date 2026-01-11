@@ -1,29 +1,42 @@
 import { ReviewId } from "#Application/ValueObjects/ReviewId.ts";
 import { UserId } from "#Application/ValueObjects/UserId.ts";
 import { describe, it, expect, beforeEach, afterEach } from "bun:test";
-import { cliUserAdapter } from "../../configurator.ts";
 import type { User } from "#Application/Aggregates/User.ts";
+import { CLIUserAdapter } from "./CLIUserAdapter.ts";
+import { JsonUserRepository } from "#Adapters/Driven/JsonUserRepository.ts";
+import { container } from "tsyringe";
 
-const TEST_FILE_PATH = "./DB/Disk/booktest.json";
+const TEST_FILE_PATH = "./DB/Disk/userstest.json";
 
 describe("CLIUserAdapter (integration)", () => {
   let isbn: string;
   let reviewId: ReviewId["id"];
   let user: User;
+  let cliUserAdapter: CLIUserAdapter;
+  let userRepo: JsonUserRepository;
 
   beforeEach(async () => {
-    try {
-      await Bun.write(TEST_FILE_PATH, JSON.stringify([]));
-      const userId = UserId.parse(crypto.randomUUID()).uuid;
-      isbn = "9781234567890";
-      reviewId = ReviewId.parse(crypto.randomUUID()).id;
+    container.clearInstances();
 
-      user = await cliUserAdapter.createUser(
-        userId,
-        "John Doe",
-        "john@example.com",
-      );
-    } catch {}
+    await Bun.write(TEST_FILE_PATH, JSON.stringify([]));
+
+    userRepo = new JsonUserRepository(TEST_FILE_PATH);
+
+    container.register("UserRepository", {
+      useValue: userRepo,
+    });
+
+    cliUserAdapter = container.resolve(CLIUserAdapter);
+
+    const userId = UserId.parse(crypto.randomUUID()).uuid;
+    isbn = "9781234567890";
+    reviewId = ReviewId.parse(crypto.randomUUID()).id;
+
+    user = await cliUserAdapter.createUser(
+      userId,
+      "John Doe",
+      "john@example.com",
+    );
   });
 
   afterEach(async () => {

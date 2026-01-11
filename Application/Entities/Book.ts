@@ -5,8 +5,6 @@ import type { Title } from "#Application/ValueObjects/Title.ts";
 
 /**
  * @class is an Entity
- * Book is an Entity in the catalog - reference data for tracking
- * Books are created and managed by Authors when they publish
  */
 export class Book {
   public get author(): Pick<Author, "authorId" | "name"> {

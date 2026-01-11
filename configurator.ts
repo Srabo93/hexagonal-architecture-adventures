@@ -21,11 +21,7 @@ switch (APP_ENV) {
       useFactory: () => new JsonUserRepository("./DB/Disk/users.json"),
     });
     container.register<AuthorRepository>("AuthorRepository", {
-      useFactory: () =>
-        new JsonAuthorRepository(
-          "./DB/Disk/authors.json",
-          "./DB/Disk/books.json",
-        ),
+      useFactory: () => new JsonAuthorRepository("./DB/Disk/authors.json"),
     });
     break;
 

@@ -2,14 +2,13 @@ import type { Book } from "#Application/Entities/Book.ts";
 import type { ISBN } from "#Application/ValueObjects/ISBN.ts";
 import type { Name } from "#Application/ValueObjects/Name.ts";
 import { PublishStatus } from "#Application/ValueObjects/PublishStatus.ts";
-import type { Title } from "#Application/ValueObjects/Title.ts";
 import type { UserId } from "#Application/ValueObjects/UserId.ts";
 
 /**
  * @class is an Aggregate Root
  */
 export class Author {
-  public get publishedBooks(): ISBN[] {
+  public get publishedBooks(): Map<string, Book> {
     return this._publishedBooks;
   }
   public get authorId(): UserId {
@@ -25,36 +24,41 @@ export class Author {
   private constructor(
     private _authorId: UserId,
     private _name: Name,
-    private _publishedBooks: ISBN[],
+    private _publishedBooks: Map<string, Book>,
   ) {}
 
-  public static create(id: UserId, name: Name, publishedBooks: ISBN[]): Author {
+  public static create(
+    id: UserId,
+    name: Name,
+    publishedBooks: Map<string, Book>,
+  ): Author {
     return new Author(id, name, publishedBooks);
   }
 
   public static rehydrate(
     id: UserId,
     name: Name,
-    publishedBooks: ISBN[],
+    publishedBooks: Map<string, Book>,
   ): Author {
     return new Author(id, name, publishedBooks);
   }
 
-  public publishBook(book: Book): void {
-    // Author aggregate coordinates with Book to publish
+  public publishBook(isbn: ISBN): void {
+    const book = this._publishedBooks.get(isbn.isbn);
+    if (!book) {
+      throw new Error("Book not found");
+    }
     if (book.author.authorId.uuid !== this._authorId.uuid) {
       throw new Error("Author can only publish their own books");
     }
     book.published = PublishStatus.published;
-    
-    // Track published book if not already tracked
-    if (!this._publishedBooks.some(isbn => isbn.isbn === book.isbn.isbn)) {
-      this._publishedBooks.push(book.isbn);
-    }
   }
 
-  public unpublishBook(book: Book): void {
-    // Author aggregate coordinates with Book to unpublish
+  public unpublishBook(isbn: ISBN): void {
+    const book = this._publishedBooks.get(isbn.isbn);
+    if (!book) {
+      throw new Error("Book not found");
+    }
     if (book.author.authorId.uuid !== this._authorId.uuid) {
       throw new Error("Author can only unpublish their own books");
     }
