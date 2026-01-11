@@ -2,6 +2,9 @@ import type { Comment } from "#Application/ValueObjects/Comment.ts";
 import type { Rating } from "#Application/ValueObjects/Rating.ts";
 import type { ReviewId } from "#Application/ValueObjects/ReviewId.ts";
 
+/**
+ * @class is an Entity
+ */
 export class Review {
   private constructor(
     private _reviewId: ReviewId,

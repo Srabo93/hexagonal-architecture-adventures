@@ -1,6 +1,9 @@
 import type { ISBN } from "#Application/ValueObjects/ISBN.ts";
 import type { ReadingStatus } from "#Application/ValueObjects/ReadingStatus.ts";
 
+/**
+ * @class is an Entity
+ */
 export class TrackedBook {
   private constructor(
     private _isbn: ISBN,

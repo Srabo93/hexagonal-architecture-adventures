@@ -5,6 +5,7 @@ import type { UserRepository } from "#Application/Driven/UserRepository.ts";
 import { JsonUserRepository } from "#Adapters/Driven/JsonUserRepository.ts";
 import { JsonBookRepository } from "#Adapters/Driven/JsonBookRepository.ts";
 import type { BookRepository } from "#Application/Driven/BookRepository.ts";
+import { CLIBookAdapter } from "#Adapters/Driving/CLIBookAdapter.ts";
 
 type AppEnv = "dev" | "integration" | "prod";
 
@@ -52,3 +53,4 @@ switch (APP_ENV) {
 }
 
 export const cliUserAdapter = container.resolve(CLIUserAdapter);
+export const cliBookAdapter = container.resolve(CLIBookAdapter);

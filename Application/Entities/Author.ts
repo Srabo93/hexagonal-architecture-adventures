@@ -2,6 +2,9 @@ import type { ISBN } from "#Application/ValueObjects/ISBN.ts";
 import type { Name } from "#Application/ValueObjects/Name.ts";
 import type { UserId } from "#Application/ValueObjects/UserId.ts";
 
+/**
+ * @class is an Entity
+ */
 export class Author {
   public get publishedBooks(): ISBN[] {
     return this._publishedBooks;

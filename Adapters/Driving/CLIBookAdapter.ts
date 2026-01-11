@@ -9,7 +9,7 @@ import { Title } from "#Application/ValueObjects/Title.ts";
 @injectable()
 export class CLIBookAdapter implements BookUseCases {
   constructor(
-    @inject("bookRepository") private readonly bookRepository: BookRepository,
+    @inject("BookRepository") private readonly bookRepository: BookRepository,
   ) {}
 
   async purchaseBook(isbn: string, amount: number): Promise<boolean> {

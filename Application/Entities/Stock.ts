@@ -4,6 +4,9 @@ import {
   StockAvailabilityStatus,
 } from "#Application/ValueObjects/StockAvailabilityStatus.ts";
 
+/**
+ * @class is an Entity
+ */
 export class Stock {
   public get amount(): StockAmount {
     return this._amount;
