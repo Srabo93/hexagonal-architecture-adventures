@@ -1,7 +1,7 @@
 import { StockAmount } from "#Application/ValueObjects/StockAmount.ts";
 import {
-  setStatus,
   StockAvailabilityStatus,
+  setStatus,
 } from "#Application/ValueObjects/StockAvailabilityStatus.ts";
 
 /**
@@ -20,10 +20,7 @@ export class Stock {
     private _availability: StockAvailabilityStatus,
   ) {}
 
-  public static create(
-    amount: StockAmount,
-    availability: StockAvailabilityStatus,
-  ) {
+  public static create(amount: StockAmount, availability: StockAvailabilityStatus) {
     return new Stock(amount, availability);
   }
 

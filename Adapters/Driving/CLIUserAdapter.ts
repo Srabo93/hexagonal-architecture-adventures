@@ -1,3 +1,5 @@
+import { inject, injectable } from "tsyringe";
+
 import { User } from "#Application/Aggregates/User.ts";
 import type { UserRepository } from "#Application/Driven/UserRepository.ts";
 import type { UserUseCases } from "#Application/Driving/UserUseCases.ts";
@@ -10,14 +12,12 @@ import { Rating } from "#Application/ValueObjects/Rating.ts";
 import { parseReadingStatus } from "#Application/ValueObjects/ReadingStatus.ts";
 import { ReviewId } from "#Application/ValueObjects/ReviewId.ts";
 import { UserId } from "#Application/ValueObjects/UserId.ts";
+
 import type { UserReviewDTO, UserTrackedBookDTO } from "./UserDTO";
-import { inject, injectable } from "tsyringe";
 
 @injectable()
 export class CLIUserAdapter implements UserUseCases {
-  constructor(
-    @inject("UserRepository") private readonly userRepo: UserRepository,
-  ) {}
+  constructor(@inject("UserRepository") private readonly userRepo: UserRepository) {}
 
   async writeReview(
     userId: string,
@@ -48,18 +48,11 @@ export class CLIUserAdapter implements UserUseCases {
     } satisfies UserReviewDTO;
   }
 
-  async trackBook(
-    userId: string,
-    isbn: string,
-    status: string,
-  ): Promise<UserTrackedBookDTO> {
+  async trackBook(userId: string, isbn: string, status: string): Promise<UserTrackedBookDTO> {
     const user = await this.userRepo.findById(UserId.parse(userId));
     if (!user) throw new Error("User not found");
 
-    const newTrackedBook = user.trackBook(
-      ISBN.parse(isbn),
-      parseReadingStatus(status),
-    );
+    const newTrackedBook = user.trackBook(ISBN.parse(isbn), parseReadingStatus(status));
     try {
       await this.userRepo.save(user);
     } catch (error) {
@@ -95,11 +88,7 @@ export class CLIUserAdapter implements UserUseCases {
   }
 
   async createUser(userId: string, name: string, email: string): Promise<User> {
-    const user = User.create(
-      UserId.parse(userId),
-      Name.parse(name),
-      Email.parse(email),
-    );
+    const user = User.create(UserId.parse(userId), Name.parse(name), Email.parse(email));
     const isSuccessfull = await this.userRepo.save(user);
 
     if (!isSuccessfull) {

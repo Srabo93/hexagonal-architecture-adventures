@@ -1,14 +1,17 @@
-import { UserId } from "#Application/ValueObjects/UserId.ts";
-import { ISBN } from "#Application/ValueObjects/ISBN.ts";
-import { describe, it, expect, beforeEach, afterEach } from "bun:test";
-import { Book } from "#Application/Entities/Book.ts";
+import { afterEach, beforeEach, describe, expect, it } from "bun:test";
+import { container } from "tsyringe";
+
 import { Author } from "#Application/Aggregates/Author.ts";
+import { Book } from "#Application/Entities/Book.ts";
+import { ISBN } from "#Application/ValueObjects/ISBN.ts";
 import { Name } from "#Application/ValueObjects/Name.ts";
 import { PublishStatus } from "#Application/ValueObjects/PublishStatus.ts";
 import { Title } from "#Application/ValueObjects/Title.ts";
+import { UserId } from "#Application/ValueObjects/UserId.ts";
+
 import { JsonAuthorRepository } from "#Adapters/Driven/JsonAuthorRepository.ts";
+
 import { CLIAuthorAdapter } from "./CLIAuthorAdapter.ts";
-import { container } from "tsyringe";
 
 const TEST_AUTHORS_FILE = "./DB/Disk/authorstest.json";
 
@@ -92,8 +95,6 @@ describe("CLIAuthorAdapter (integration)", () => {
 
     await authorRepo.save(otherAuthor);
 
-    expect(cliAuthorAdapter.publishBook(otherAuthorId, isbn)).rejects.toThrow(
-      "Book not found",
-    );
+    expect(cliAuthorAdapter.publishBook(otherAuthorId, isbn)).rejects.toThrow("Book not found");
   });
 });

@@ -11,7 +11,5 @@ export function parseReadingStatus(value: string): ReadingStatus {
   if (statuses.includes(value as ReadingStatus)) {
     return value as ReadingStatus;
   }
-  throw new Error(
-    `Invalid reading status: "${value}". Allowed values: ${statuses.join(", ")}`,
-  );
+  throw new Error(`Invalid reading status: "${value}". Allowed values: ${statuses.join(", ")}`);
 }

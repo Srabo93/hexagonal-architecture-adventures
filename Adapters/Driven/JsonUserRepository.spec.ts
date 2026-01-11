@@ -1,4 +1,7 @@
+import { afterEach, beforeEach, describe, expect, it } from "bun:test";
+
 import { User } from "#Application/Aggregates/User.ts";
+import { Review } from "#Application/Entities/Review.ts";
 import { Comment } from "#Application/ValueObjects/Comment.ts";
 import { Email } from "#Application/ValueObjects/Email.ts";
 import { ISBN } from "#Application/ValueObjects/ISBN.ts";
@@ -6,9 +9,8 @@ import { Name } from "#Application/ValueObjects/Name.ts";
 import { Rating } from "#Application/ValueObjects/Rating.ts";
 import { ReviewId } from "#Application/ValueObjects/ReviewId.ts";
 import { UserId } from "#Application/ValueObjects/UserId.ts";
-import { describe, it, expect, beforeEach, afterEach } from "bun:test";
+
 import { JsonUserRepository } from "./JsonUserRepository";
-import { Review } from "#Application/Entities/Review.ts";
 
 const TEST_FILE_PATH = "./DB/Disk/userstest.json";
 
@@ -31,11 +33,7 @@ describe("JsonUserRepository (integration)", () => {
 
   it("persists and rehydrates a user", async () => {
     const userId = UserId.parse(crypto.randomUUID());
-    const user = User.create(
-      userId,
-      Name.parse("John Doe"),
-      Email.parse("john@doe.com"),
-    );
+    const user = User.create(userId, Name.parse("John Doe"), Email.parse("john@doe.com"));
 
     const isbn = ISBN.parse("9783161484100");
     const bookReview = Review.create(
@@ -79,11 +77,7 @@ describe("JsonUserRepository (integration)", () => {
 
   it("updates an existing user instead of duplicating", async () => {
     const userId = UserId.parse(crypto.randomUUID());
-    const user = User.create(
-      userId,
-      Name.parse("Jane Doe"),
-      Email.parse("jane@doe.com"),
-    );
+    const user = User.create(userId, Name.parse("Jane Doe"), Email.parse("jane@doe.com"));
 
     await repo.save(user);
 

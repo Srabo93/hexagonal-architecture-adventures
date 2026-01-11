@@ -1,5 +1,6 @@
 import { Command } from "commander";
-import { cliUserAdapter, cliAuthorAdapter } from "configurator";
+import { cliAuthorAdapter, cliUserAdapter } from "configurator";
+
 const program = new Command();
 
 program.name("book-tracker").description("Personal Book Tracker CLI");
@@ -10,11 +11,7 @@ program
   .requiredOption("--name <Name>")
   .requiredOption("--email <Email>")
   .action(async (opts) => {
-    const user = await cliUserAdapter.createUser(
-      opts.user,
-      opts.name,
-      opts.email,
-    );
+    const user = await cliUserAdapter.createUser(opts.user, opts.name, opts.email);
     console.log(`${user.userId.uuid}`);
     console.log(`${user.name.fullName().toString()}\n`);
     console.log(`${user.email.email}\n`);
@@ -26,11 +23,7 @@ program
   .requiredOption("--isbn <isbn>")
   .requiredOption("--status <status>")
   .action(async (opts) => {
-    const tracked = await cliUserAdapter.trackBook(
-      opts.user,
-      opts.isbn,
-      opts.status,
-    );
+    const tracked = await cliUserAdapter.trackBook(opts.user, opts.isbn, opts.status);
     console.log("Book tracked successfully");
     console.log(`${JSON.stringify(tracked)}`);
   });
@@ -63,11 +56,7 @@ program
       rating: opts.rating,
       comment: opts.comment,
     };
-    const writtenReview = await cliUserAdapter.writeReview(
-      opts.user,
-      opts.isbn,
-      review,
-    );
+    const writtenReview = await cliUserAdapter.writeReview(opts.user, opts.isbn, review);
     console.log("Review written successfully");
     console.log(`${JSON.stringify(writtenReview)}`);
   });
@@ -144,19 +133,17 @@ program
     });
   });
 
-program
-  .command("list-books")
-  .action(async () => {
-    const books = await cliAuthorAdapter.listAllBooks();
-    if (books.length === 0) {
-      console.log("No books in catalog");
-      return;
-    }
-    console.log(`Total books: ${books.length}`);
-    books.forEach((book) => {
-      console.log(`- ${book.isbn}: ${book.title} by ${book.author.name} (${book.published})`);
-    });
+program.command("list-books").action(async () => {
+  const books = await cliAuthorAdapter.listAllBooks();
+  if (books.length === 0) {
+    console.log("No books in catalog");
+    return;
+  }
+  console.log(`Total books: ${books.length}`);
+  books.forEach((book) => {
+    console.log(`- ${book.isbn}: ${book.title} by ${book.author.name} (${book.published})`);
   });
+});
 
 program
   .command("get-books-by-author")

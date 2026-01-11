@@ -1,11 +1,13 @@
 import "reflect-metadata";
 import { container } from "tsyringe";
-import { CLIUserAdapter } from "#Adapters/Driving/CLIUserAdapter.ts";
+
+import type { AuthorRepository } from "#Application/Driven/AuthorRepository.ts";
 import type { UserRepository } from "#Application/Driven/UserRepository.ts";
+
+import { JsonAuthorRepository } from "#Adapters/Driven/JsonAuthorRepository.ts";
 import { JsonUserRepository } from "#Adapters/Driven/JsonUserRepository.ts";
 import { CLIAuthorAdapter } from "#Adapters/Driving/CLIAuthorAdapter.ts";
-import type { AuthorRepository } from "#Application/Driven/AuthorRepository.ts";
-import { JsonAuthorRepository } from "#Adapters/Driven/JsonAuthorRepository.ts";
+import { CLIUserAdapter } from "#Adapters/Driving/CLIUserAdapter.ts";
 
 type AppEnv = "dev" | "integration" | "prod";
 

@@ -1,10 +1,13 @@
+import { afterEach, beforeEach, describe, expect, it } from "bun:test";
+import { container } from "tsyringe";
+
+import type { User } from "#Application/Aggregates/User.ts";
 import { ReviewId } from "#Application/ValueObjects/ReviewId.ts";
 import { UserId } from "#Application/ValueObjects/UserId.ts";
-import { describe, it, expect, beforeEach, afterEach } from "bun:test";
-import type { User } from "#Application/Aggregates/User.ts";
-import { CLIUserAdapter } from "./CLIUserAdapter.ts";
+
 import { JsonUserRepository } from "#Adapters/Driven/JsonUserRepository.ts";
-import { container } from "tsyringe";
+
+import { CLIUserAdapter } from "./CLIUserAdapter.ts";
 
 const TEST_FILE_PATH = "./DB/Disk/userstest.json";
 
@@ -32,11 +35,7 @@ describe("CLIUserAdapter (integration)", () => {
     isbn = "9781234567890";
     reviewId = ReviewId.parse(crypto.randomUUID()).id;
 
-    user = await cliUserAdapter.createUser(
-      userId,
-      "John Doe",
-      "john@example.com",
-    );
+    user = await cliUserAdapter.createUser(userId, "John Doe", "john@example.com");
   });
 
   afterEach(async () => {
@@ -112,11 +111,7 @@ describe("CLIUserAdapter (integration)", () => {
   });
 
   it("should track a users book when valid isbn provided", async () => {
-    const trackedBook = await cliUserAdapter.trackBook(
-      user.userId.uuid,
-      isbn,
-      "WantToRead",
-    );
+    const trackedBook = await cliUserAdapter.trackBook(user.userId.uuid, isbn, "WantToRead");
     expect(trackedBook).toBeDefined();
     expect(trackedBook).toMatchObject({
       isbn,
@@ -127,11 +122,7 @@ describe("CLIUserAdapter (integration)", () => {
   //TODO: this will be the first UserService that incorporates Book Aggregate to check if a book is valid
   it.skip("should throw when a user tracks a book with invalid isbn", async () => {
     expect(
-      await cliUserAdapter.trackBook(
-        user.userId.uuid,
-        "ThisWillThrow",
-        "WantToRead",
-      ),
+      await cliUserAdapter.trackBook(user.userId.uuid, "ThisWillThrow", "WantToRead"),
     ).rejects.toThrow();
   });
 });

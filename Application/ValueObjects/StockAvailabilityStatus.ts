@@ -8,15 +8,11 @@ export type StockAvailabilityStatus =
   (typeof StockAvailabilityStatus)[keyof typeof StockAvailabilityStatus];
 
 export function parseReadingStatus(value: string): StockAvailabilityStatus {
-  const statuses = Object.values(
-    StockAvailabilityStatus,
-  ) as StockAvailabilityStatus[];
+  const statuses = Object.values(StockAvailabilityStatus) as StockAvailabilityStatus[];
   if (statuses.includes(value as StockAvailabilityStatus)) {
     return value as StockAvailabilityStatus;
   }
-  throw new Error(
-    `Invalid stock status: "${value}". Allowed values: ${statuses.join(", ")}`,
-  );
+  throw new Error(`Invalid stock status: "${value}". Allowed values: ${statuses.join(", ")}`);
 }
 
 export function setStatus(amount: number) {

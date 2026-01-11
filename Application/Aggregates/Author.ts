@@ -27,19 +27,11 @@ export class Author {
     private _publishedBooks: Map<string, Book>,
   ) {}
 
-  public static create(
-    id: UserId,
-    name: Name,
-    publishedBooks: Map<string, Book>,
-  ): Author {
+  public static create(id: UserId, name: Name, publishedBooks: Map<string, Book>): Author {
     return new Author(id, name, publishedBooks);
   }
 
-  public static rehydrate(
-    id: UserId,
-    name: Name,
-    publishedBooks: Map<string, Book>,
-  ): Author {
+  public static rehydrate(id: UserId, name: Name, publishedBooks: Map<string, Book>): Author {
     return new Author(id, name, publishedBooks);
   }
 

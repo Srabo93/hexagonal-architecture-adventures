@@ -1,3 +1,5 @@
+import { injectable } from "tsyringe";
+
 import { User } from "#Application/Aggregates/User.ts";
 import type { UserRepository } from "#Application/Driven/UserRepository.ts";
 import { Review } from "#Application/Entities/Review.ts";
@@ -9,8 +11,8 @@ import { Name } from "#Application/ValueObjects/Name.ts";
 import { Rating } from "#Application/ValueObjects/Rating.ts";
 import { ReviewId } from "#Application/ValueObjects/ReviewId.ts";
 import { UserId } from "#Application/ValueObjects/UserId.ts";
+
 import type { UserSnapshot } from "./UserSnapshot";
-import { injectable } from "tsyringe";
 
 @injectable()
 export class JsonUserRepository implements UserRepository {
@@ -91,10 +93,7 @@ export class JsonUserRepository implements UserRepository {
     }
 
     try {
-      const isSuccessfull = await Bun.write(
-        this.filepath,
-        JSON.stringify(users, null, 2),
-      );
+      const isSuccessfull = await Bun.write(this.filepath, JSON.stringify(users, null, 2));
 
       if (!(typeof isSuccessfull === "number")) {
         throw new Error("Something went wrong to persist the aggregate User");

@@ -1,11 +1,13 @@
-import { describe, it, expect } from "bun:test";
-import { Book } from "./Book.ts";
+import { describe, expect, it } from "bun:test";
+
 import { Author } from "#Application/Aggregates/Author.ts";
 import { ISBN } from "#Application/ValueObjects/ISBN.ts";
 import { Name } from "#Application/ValueObjects/Name.ts";
 import { PublishStatus } from "#Application/ValueObjects/PublishStatus.ts";
 import { Title } from "#Application/ValueObjects/Title.ts";
 import { UserId } from "#Application/ValueObjects/UserId.ts";
+
+import { Book } from "./Book.ts";
 
 describe("Book Entity", () => {
   const authorId = UserId.parse(crypto.randomUUID());

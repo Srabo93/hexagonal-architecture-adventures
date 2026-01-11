@@ -10,7 +10,5 @@ export function parseReadingStatus(value: string): PublishStatus {
   if (statuses.includes(value as PublishStatus)) {
     return value as PublishStatus;
   }
-  throw new Error(
-    `Invalid publish status: "${value}". Allowed values: ${statuses.join(", ")}`,
-  );
+  throw new Error(`Invalid publish status: "${value}". Allowed values: ${statuses.join(", ")}`);
 }
