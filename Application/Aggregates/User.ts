@@ -93,4 +93,11 @@ export class User {
 
     return newReview;
   }
+
+  public untrackBook(isbn: ISBN): void {
+    if (!this._trackedBooks.has(isbn.isbn)) {
+      throw new Error("book is not tracked");
+    }
+    this._trackedBooks.delete(isbn.isbn);
+  }
 }

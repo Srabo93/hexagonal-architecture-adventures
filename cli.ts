@@ -1,5 +1,5 @@
 import { Command } from "commander";
-import { cliUserAdapter } from "configurator";
+import { cliUserAdapter, cliAuthorAdapter } from "configurator";
 const program = new Command();
 
 program.name("book-tracker").description("Personal Book Tracker CLI");
@@ -82,6 +82,94 @@ program
       console.log(
         `Book ISBN: ${review.isbn} \n Comment: ${review.comment} \n Rating: ${review.rating} \n ReviewID: ${review.reviewId}`,
       );
+    });
+  });
+
+program
+  .command("untrack-book")
+  .requiredOption("--user <userId>")
+  .requiredOption("--isbn <isbn>")
+  .action(async (opts) => {
+    await cliUserAdapter.untrackBook(opts.user, opts.isbn);
+    console.log("Book untracked successfully");
+  });
+
+// Author commands
+program
+  .command("publish-book")
+  .requiredOption("--author <authorId>")
+  .requiredOption("--isbn <isbn>")
+  .action(async (opts) => {
+    await cliAuthorAdapter.publishBook(opts.author, opts.isbn);
+    console.log("Book published successfully");
+  });
+
+program
+  .command("unpublish-book")
+  .requiredOption("--author <authorId>")
+  .requiredOption("--isbn <isbn>")
+  .action(async (opts) => {
+    await cliAuthorAdapter.unpublishBook(opts.author, opts.isbn);
+    console.log("Book unpublished successfully");
+  });
+
+// Book commands (accessed through Author aggregate)
+program
+  .command("get-book")
+  .requiredOption("--isbn <isbn>")
+  .action(async (opts) => {
+    const book = await cliAuthorAdapter.getBook(opts.isbn);
+    if (!book) {
+      console.log("Book not found");
+      return;
+    }
+    console.log(`ISBN: ${book.isbn}`);
+    console.log(`Title: ${book.title}`);
+    console.log(`Author: ${book.author.name}`);
+    console.log(`Published: ${book.published}`);
+  });
+
+program
+  .command("search-books")
+  .requiredOption("--query <query>")
+  .action(async (opts) => {
+    const books = await cliAuthorAdapter.searchBooks(opts.query);
+    if (books.length === 0) {
+      console.log("No books found");
+      return;
+    }
+    console.log(`Found ${books.length} book(s):`);
+    books.forEach((book) => {
+      console.log(`- ${book.isbn}: ${book.title} by ${book.author.name}`);
+    });
+  });
+
+program
+  .command("list-books")
+  .action(async () => {
+    const books = await cliAuthorAdapter.listAllBooks();
+    if (books.length === 0) {
+      console.log("No books in catalog");
+      return;
+    }
+    console.log(`Total books: ${books.length}`);
+    books.forEach((book) => {
+      console.log(`- ${book.isbn}: ${book.title} by ${book.author.name} (${book.published})`);
+    });
+  });
+
+program
+  .command("get-books-by-author")
+  .requiredOption("--author <authorId>")
+  .action(async (opts) => {
+    const books = await cliAuthorAdapter.getBooksByAuthor(opts.author);
+    if (books.length === 0) {
+      console.log("No books found for this author");
+      return;
+    }
+    console.log(`Books by author ${opts.author}:`);
+    books.forEach((book) => {
+      console.log(`- ${book.isbn}: ${book.title} (${book.published})`);
     });
   });
 

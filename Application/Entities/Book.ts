@@ -1,16 +1,16 @@
-import type { Author } from "#Application/Entities/Author.ts";
-import { Stock } from "#Application/Entities/Stock.ts";
+import type { Author } from "#Application/Aggregates/Author.ts";
 import type { ISBN } from "#Application/ValueObjects/ISBN.ts";
 import { PublishStatus } from "#Application/ValueObjects/PublishStatus.ts";
-import { StockAmount } from "#Application/ValueObjects/StockAmount.ts";
 import type { Title } from "#Application/ValueObjects/Title.ts";
 
+/**
+ * @class is an Entity
+ * Book is an Entity in the catalog - reference data for tracking
+ * Books are created and managed by Authors when they publish
+ */
 export class Book {
   public get author(): Pick<Author, "authorId" | "name"> {
     return this._author;
-  }
-  public get stock(): Stock {
-    return this._stock;
   }
   public get published(): PublishStatus {
     return this._published;
@@ -27,7 +27,6 @@ export class Book {
 
   private constructor(
     private _author: Pick<Author, "authorId" | "name">,
-    private _stock: Stock,
     private _published: PublishStatus,
     private _isbn: ISBN,
     private _title: Title,
@@ -35,41 +34,19 @@ export class Book {
 
   static create(
     author: Pick<Author, "authorId" | "name">,
-    stock: Stock,
     published: PublishStatus,
     isbn: ISBN,
     title: Title,
   ): Book {
-    return new Book(author, stock, published, isbn, title);
+    return new Book(author, published, isbn, title);
   }
 
   static rehydrate(
     author: Pick<Author, "authorId" | "name">,
-    stock: Stock,
     published: PublishStatus,
     isbn: ISBN,
     title: Title,
   ): Book {
-    return new Book(author, stock, published, isbn, title);
-  }
-
-  public purchaseBook(amount: StockAmount) {
-    return this.stock.subtractStock(amount);
-  }
-
-  public returnBook(amount: StockAmount) {
-    return this.stock.addStock(amount);
-  }
-
-  public changeBookTitle(newTitle: Title) {
-    this._title = newTitle;
-  }
-
-  public unpublish(status: typeof PublishStatus.unpublished) {
-    this._published = status;
-  }
-
-  public publish(status: typeof PublishStatus.published) {
-    this._published = status;
+    return new Book(author, published, isbn, title);
   }
 }

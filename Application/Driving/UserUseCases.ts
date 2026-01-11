@@ -16,6 +16,10 @@ export interface UserUseCases {
     isbn: string,
     review: { reviewId: number; rating: number; comment: string },
   ): Promise<UserReviewDTO>;
+  untrackBook(
+    userId: string,
+    isbn: string,
+  ): Promise<void>;
   getTrackedBooks(userId: string): Promise<UserTrackedBookDTO[]>;
   getReviews(userId: string): Promise<UserReviewDTO[]>;
 }

@@ -107,4 +107,22 @@ export class CLIUserAdapter implements UserUseCases {
     }
     return user;
   }
+
+  async untrackBook(userId: string, isbn: string): Promise<void> {
+    const user = await this.userRepo.findById(UserId.parse(userId));
+    if (!user) throw new Error("User not found");
+
+    try {
+      user.untrackBook(ISBN.parse(isbn));
+      const userSaveResult = await this.userRepo.save(user);
+      if (userSaveResult instanceof Error) {
+        throw userSaveResult;
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw new Error("Failed to untrack book");
+    }
+  }
 }

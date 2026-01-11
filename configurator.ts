@@ -3,9 +3,9 @@ import { container } from "tsyringe";
 import { CLIUserAdapter } from "#Adapters/Driving/CLIUserAdapter.ts";
 import type { UserRepository } from "#Application/Driven/UserRepository.ts";
 import { JsonUserRepository } from "#Adapters/Driven/JsonUserRepository.ts";
-import { JsonBookRepository } from "#Adapters/Driven/JsonBookRepository.ts";
-import type { BookRepository } from "#Application/Driven/BookRepository.ts";
-import { CLIBookAdapter } from "#Adapters/Driving/CLIBookAdapter.ts";
+import { CLIAuthorAdapter } from "#Adapters/Driving/CLIAuthorAdapter.ts";
+import type { AuthorRepository } from "#Application/Driven/AuthorRepository.ts";
+import { JsonAuthorRepository } from "#Adapters/Driven/JsonAuthorRepository.ts";
 
 type AppEnv = "dev" | "integration" | "prod";
 
@@ -20,8 +20,12 @@ switch (APP_ENV) {
     container.register<UserRepository>("UserRepository", {
       useFactory: () => new JsonUserRepository("./DB/Disk/users.json"),
     });
-    container.register<BookRepository>("BookRepository", {
-      useFactory: () => new JsonBookRepository("./DB/Disk/books.json"),
+    container.register<AuthorRepository>("AuthorRepository", {
+      useFactory: () =>
+        new JsonAuthorRepository(
+          "./DB/Disk/authors.json",
+          "./DB/Disk/books.json",
+        ),
     });
     break;
 
@@ -53,4 +57,4 @@ switch (APP_ENV) {
 }
 
 export const cliUserAdapter = container.resolve(CLIUserAdapter);
-export const cliBookAdapter = container.resolve(CLIBookAdapter);
+export const cliAuthorAdapter = container.resolve(CLIAuthorAdapter);
