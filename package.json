@@ -14,13 +14,19 @@
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/pg": "^8.16.0",
+    "drizzle-kit": "^0.31.8",
+    "tsx": "^4.21.0"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "dependencies": {
     "commander": "^14.0.2",
+    "dotenv": "^17.2.3",
+    "drizzle-orm": "^0.45.1",
+    "pg": "^8.17.0",
     "reflect-metadata": "^0.2.2",
     "tsyringe": "^4.10.0"
   },
