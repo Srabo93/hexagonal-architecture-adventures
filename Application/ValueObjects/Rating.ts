@@ -9,6 +9,10 @@ export class Rating {
     return new Rating(int);
   }
 
+  public static fromPersistence(int: number) {
+    return new Rating(int);
+  }
+
   public get rating(): number {
     return this._rating;
   }

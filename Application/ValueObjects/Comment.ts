@@ -9,6 +9,10 @@ export class Comment {
     return new Comment(comment);
   }
 
+  public static fromPersistence(comment: string) {
+    return new Comment(comment);
+  }
+
   public get comment(): string {
     return this._comment;
   }

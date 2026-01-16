@@ -21,6 +21,19 @@ export class Name {
     return new Name(firstName, lastName);
   }
 
+  public static fromPersistence(value: string) {
+    const parts = value.trim().split(/\s+/);
+
+    const firstName = parts[0];
+    const lastName = parts[parts.length - 1];
+
+    if (!firstName || !lastName) {
+      throw new Error("Invalid name format");
+    }
+
+    return new Name(firstName, lastName);
+  }
+
   public get firstName(): string {
     return this._firstName;
   }

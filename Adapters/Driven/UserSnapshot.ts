@@ -1,6 +1,7 @@
 import type { ReadingStatus } from "#Application/ValueObjects/ReadingStatus.ts";
 
 export interface UserSnapshot {
+  version: number;
   userId: string;
   name: string;
   email: string;

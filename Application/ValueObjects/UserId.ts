@@ -9,6 +9,10 @@ export class UserId {
     return new UserId(value);
   }
 
+  public static fromPersistence(value: string) {
+    return new UserId(value);
+  }
+
   public get uuid(): string {
     return this._uuid;
   }

@@ -5,6 +5,7 @@ export const trackedBookStatusEnum = pgEnum("book_status", ["WantToRead", "Read"
 export const bookPublishStatus = pgEnum("publish_status", ["Published", "Unpublished"]);
 
 export const users = pgTable("users", {
+  version: integer("version").notNull(),
   id: uuid("id").primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
   email: varchar("email", { length: 255 }).notNull().unique(),
@@ -58,6 +59,7 @@ export const reviewsRelations = relations(reviews, ({ one }) => ({
 }));
 
 export const authors = pgTable("authors", {
+  version: integer("version").notNull(),
   id: uuid("id").primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
 });

@@ -8,6 +8,7 @@ import type { UserId } from "#Application/ValueObjects/UserId.ts";
 
 export class User {
   private constructor(
+    private _version: number,
     private _userId: UserId,
     private _name: Name,
     private _email: Email,
@@ -15,18 +16,27 @@ export class User {
     private _reviews: Map<string, Review>,
   ) {}
 
-  static create(userId: UserId, name: Name, email: Email): User {
-    return new User(userId, name, email, new Map(), new Map());
+  static create(version: number = 1, userId: UserId, name: Name, email: Email): User {
+    return new User(version, userId, name, email, new Map(), new Map());
   }
 
   static rehydrate(
+    version: number,
     userId: UserId,
     name: Name,
     email: Email,
     trackedBooks: Map<string, TrackedBook>,
-    review: Map<string, Review>,
+    reviews: Map<string, Review>,
   ): User {
-    return new User(userId, name, email, trackedBooks, review);
+    return new User(version, userId, name, email, trackedBooks, reviews);
+  }
+
+  public get version(): number {
+    return this._version;
+  }
+
+  public bumpVersion() {
+    this._version++;
   }
 
   public set name(value: Name) {

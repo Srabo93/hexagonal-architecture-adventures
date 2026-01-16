@@ -1,28 +1,20 @@
-import { drizzle } from "drizzle-orm/node-postgres";
-import { Client } from "pg";
-
-import { authors, books, reviews, trackedBooks, users } from "./db/schema";
+import { db } from "./client";
+import { authors, books, reviews, trackedBooks, users } from "./schema";
 
 async function main() {
-  const client = new Client({
-    connectionString: process.env.DATABASEURL!,
-  });
-  await client.connect();
-  const db = drizzle(client);
-
   // ---------- 2. Create sample users ----------
   const sampleUsers = [
-    { id: crypto.randomUUID(), name: "Alice", email: "alice@example.com" },
-    { id: crypto.randomUUID(), name: "Bob", email: "bob@example.com" },
-    { id: crypto.randomUUID(), name: "Charlie", email: "charlie@example.com" },
+    { id: crypto.randomUUID(), name: "Alice Doe", email: "alice@example.com", version: 1 },
+    { id: crypto.randomUUID(), name: "Bob Martin", email: "bob@example.com", version: 1 },
+    { id: crypto.randomUUID(), name: "Charlie Harper", email: "charlie@example.com", version: 1 },
   ];
   await db.insert(users).values(sampleUsers);
 
   // ---------- 3. Create sample authors ----------
   const sampleAuthors = [
-    { id: crypto.randomUUID(), name: "J.K. Rowling" },
-    { id: crypto.randomUUID(), name: "George R.R. Martin" },
-    { id: crypto.randomUUID(), name: "Brandon Sanderson" },
+    { id: crypto.randomUUID(), name: "J.K. Rowling", version: 1 },
+    { id: crypto.randomUUID(), name: "George R.R. Martin", version: 1 },
+    { id: crypto.randomUUID(), name: "Brandon Sanderson", version: 1 },
   ];
   await db.insert(authors).values(sampleAuthors);
 

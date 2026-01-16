@@ -1,3 +1,4 @@
+import { db as postgresDB } from "DB/Postgres/client";
 import "reflect-metadata";
 import { container } from "tsyringe";
 
@@ -6,6 +7,7 @@ import type { UserRepository } from "#Application/Driven/UserRepository.ts";
 
 import { JsonAuthorRepository } from "#Adapters/Driven/JsonAuthorRepository.ts";
 import { JsonUserRepository } from "#Adapters/Driven/JsonUserRepository.ts";
+import { PostgresUserRepository } from "#Adapters/Driven/PostgresUserRepository.ts";
 import { CLIAuthorAdapter } from "#Adapters/Driving/CLIAuthorAdapter.ts";
 import { CLIUserAdapter } from "#Adapters/Driving/CLIUserAdapter.ts";
 
@@ -28,29 +30,13 @@ switch (APP_ENV) {
     break;
 
   case "integration":
-    // container.register<UserRepository>("UserRepo", {
-    //   useFactory: () =>
-    //     new SqlUserRepository({
-    //       host: "localhost",
-    //       port: 5432,
-    //       database: "users",
-    //       user: "test",
-    //       password: "test",
-    //     }),
-    // });
+    container.register<UserRepository>("UserRepository", {
+      useFactory: () => new PostgresUserRepository(postgresDB),
+    });
+
     break;
 
   case "prod":
-    // container.register<UserRepository>("UserRepo", {
-    //   useFactory: () =>
-    //     new SqlUserRepository({
-    //       host: process.env.DB_HOST!,
-    //       database: process.env.DB_NAME!,
-    //       user: process.env.DB_USER!,
-    //       password: process.env.DB_PASSWORD!,
-    //       ssl: true,
-    //     }),
-    // });
     break;
 }
 

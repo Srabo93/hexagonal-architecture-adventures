@@ -1,5 +1,3 @@
-import { injectable } from "tsyringe";
-
 import { Author } from "#Application/Aggregates/Author.ts";
 import type { AuthorRepository } from "#Application/Driven/AuthorRepository.ts";
 import { Book } from "#Application/Entities/Book.ts";
@@ -10,12 +8,12 @@ import { UserId } from "#Application/ValueObjects/UserId.ts";
 
 import type { AuthorSnapshot } from "./AuthorSnapshot";
 
-@injectable()
 export class JsonAuthorRepository implements AuthorRepository {
   constructor(private readonly authorFilepath: string) {}
 
   toSnapshot(author: Author): AuthorSnapshot {
     return {
+      version: author.version,
       authorId: author.authorId.uuid,
       name: author.name.fullName(),
       publishedBooks: Array.from(author.publishedBooks.values()).map((book) => ({
@@ -58,6 +56,7 @@ export class JsonAuthorRepository implements AuthorRepository {
 
     return persistedAuthor
       ? Author.rehydrate(
+          persistedAuthor.version,
           UserId.parse(persistedAuthor.authorId),
           Name.parse(persistedAuthor.name),
           books,
@@ -83,6 +82,7 @@ export class JsonAuthorRepository implements AuthorRepository {
       if (!(typeof isSuccessfull === "number")) {
         throw new Error("Something went wrong to persist the aggregate Author");
       }
+      author.bumpVersion();
     } catch (error) {
       throw error;
     }

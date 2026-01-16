@@ -3,5 +3,5 @@ import type { UserId } from "#Application/ValueObjects/UserId.ts";
 
 export interface UserRepository {
   findById(id: UserId): Promise<User | null>;
-  save(user: User): Promise<boolean | Error>;
+  save(user: User): Promise<void>;
 }

@@ -14,6 +14,10 @@ export class TrackedBook {
     return new TrackedBook(isbn, status);
   }
 
+  public static rehydrate(isbn: ISBN, status: ReadingStatus) {
+    return new TrackedBook(isbn, status);
+  }
+
   public updateStatus(status: ReadingStatus) {
     this._status = status;
   }

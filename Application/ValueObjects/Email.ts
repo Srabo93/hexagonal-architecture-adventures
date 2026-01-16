@@ -8,6 +8,10 @@ export class Email {
     return new Email(email);
   }
 
+  public static fromPersistence(email: string) {
+    return new Email(email);
+  }
+
   public get email(): string {
     return this._email;
   }

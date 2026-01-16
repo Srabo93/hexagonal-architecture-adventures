@@ -9,6 +9,10 @@ export class ReviewId {
     return new ReviewId(value);
   }
 
+  public static fromPersistence(id: string) {
+    return new ReviewId(id);
+  }
+
   public get id(): string {
     return this._reviewId;
   }

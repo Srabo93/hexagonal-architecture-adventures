@@ -15,6 +15,10 @@ export class ISBN {
     return new ISBN(normalized);
   }
 
+  public static fromPersistence(isbn: string) {
+    return new ISBN(isbn);
+  }
+
   public get isbn(): string {
     return this._isbn;
   }

@@ -1,5 +1,3 @@
-import { injectable } from "tsyringe";
-
 import { User } from "#Application/Aggregates/User.ts";
 import type { UserRepository } from "#Application/Driven/UserRepository.ts";
 import { Review } from "#Application/Entities/Review.ts";
@@ -14,12 +12,12 @@ import { UserId } from "#Application/ValueObjects/UserId.ts";
 
 import type { UserSnapshot } from "./UserSnapshot";
 
-@injectable()
 export class JsonUserRepository implements UserRepository {
   constructor(private readonly filepath: string) {}
 
   toSnapshot(user: User): UserSnapshot {
     return {
+      version: user.version,
       userId: user.userId.uuid,
       name: user.name.fullName(),
       email: user.email.email,
@@ -71,6 +69,7 @@ export class JsonUserRepository implements UserRepository {
 
     return persistedUser
       ? User.rehydrate(
+          persistedUser.version,
           UserId.parse(persistedUser.userId),
           Name.parse(persistedUser.name),
           Email.parse(persistedUser.email),
@@ -80,7 +79,7 @@ export class JsonUserRepository implements UserRepository {
       : null;
   }
 
-  async save(user: User): Promise<boolean | Error> {
+  async save(user: User): Promise<void> {
     const users = await this.loadAll();
     const snapshot = this.toSnapshot(user) satisfies UserSnapshot;
 
@@ -98,9 +97,9 @@ export class JsonUserRepository implements UserRepository {
       if (!(typeof isSuccessfull === "number")) {
         throw new Error("Something went wrong to persist the aggregate User");
       }
+      user.bumpVersion();
     } catch (error) {
       throw error;
     }
-    return true;
   }
 }

@@ -15,6 +15,9 @@ export class Review {
   public static create(id: ReviewId, rating: Rating, comment: Comment) {
     return new Review(id, rating, comment);
   }
+  public static rehydrate(id: ReviewId, rating: Rating, comment: Comment) {
+    return new Review(id, rating, comment);
+  }
 
   public get reviewId(): ReviewId {
     return this._reviewId;

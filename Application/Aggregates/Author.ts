@@ -8,6 +8,31 @@ import type { UserId } from "#Application/ValueObjects/UserId.ts";
  * @class is an Aggregate Root
  */
 export class Author {
+  private constructor(
+    private _version: number,
+    private _authorId: UserId,
+    private _name: Name,
+    private _publishedBooks: Map<string, Book>,
+  ) {}
+
+  public static create(
+    version: number = 1,
+    id: UserId,
+    name: Name,
+    publishedBooks: Map<string, Book>,
+  ): Author {
+    return new Author(version, id, name, publishedBooks);
+  }
+
+  public static rehydrate(
+    version: number,
+    id: UserId,
+    name: Name,
+    publishedBooks: Map<string, Book>,
+  ): Author {
+    return new Author(version, id, name, publishedBooks);
+  }
+
   public get publishedBooks(): Map<string, Book> {
     return this._publishedBooks;
   }
@@ -21,18 +46,12 @@ export class Author {
     this._name = value;
   }
 
-  private constructor(
-    private _authorId: UserId,
-    private _name: Name,
-    private _publishedBooks: Map<string, Book>,
-  ) {}
-
-  public static create(id: UserId, name: Name, publishedBooks: Map<string, Book>): Author {
-    return new Author(id, name, publishedBooks);
+  public get version(): number {
+    return this._version;
   }
 
-  public static rehydrate(id: UserId, name: Name, publishedBooks: Map<string, Book>): Author {
-    return new Author(id, name, publishedBooks);
+  public bumpVersion() {
+    this._version++;
   }
 
   public publishBook(isbn: ISBN): void {
