@@ -42,7 +42,7 @@ export class Name {
     return this._lastName;
   }
 
-  public fullName(): string {
+  public get fullName(): string {
     return `${this._firstName} ${this._lastName}`;
   }
 }

@@ -47,7 +47,6 @@ describe("JsonUserRepository (integration)", () => {
     user.writeReview(isbn, bookReview);
     //Act
     const saveResult = await repo.save(user);
-    expect(saveResult).toBe(true);
 
     const loadedUser = await repo.findById(userId);
     //Assert
@@ -56,7 +55,7 @@ describe("JsonUserRepository (integration)", () => {
     if (!loadedUser) return;
 
     expect(loadedUser.userId.uuid).toBe(user.userId.uuid);
-    expect(loadedUser.name.fullName()).toBe("John Doe");
+    expect(loadedUser.name.fullName).toBe("John Doe");
     expect(loadedUser.email.email).toBe("john@doe.com");
 
     expect(loadedUser.trackedBooks.length).toBe(1);
@@ -86,7 +85,7 @@ describe("JsonUserRepository (integration)", () => {
 
     const loaded = await repo.findById(userId);
 
-    expect(loaded?.name.fullName()).toBe("Jane Updated");
+    expect(loaded?.name.fullName).toBe("Jane Updated");
 
     const file = await Bun.file(TEST_FILE_PATH).json();
     expect(file.length).toBe(1); // no duplicate users

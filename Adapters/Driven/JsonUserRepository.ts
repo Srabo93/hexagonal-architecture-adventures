@@ -19,7 +19,7 @@ export class JsonUserRepository implements UserRepository {
     return {
       version: user.version,
       userId: user.userId.uuid,
-      name: user.name.fullName(),
+      name: user.name.fullName,
       email: user.email.email,
 
       trackedBooks: Array.from(user.trackedBooks.values()).map((tb) => ({
@@ -80,26 +80,36 @@ export class JsonUserRepository implements UserRepository {
   }
 
   async save(user: User): Promise<void> {
-    const users = await this.loadAll();
+    const usersSnapshots = await this.loadAll();
     const snapshot = this.toSnapshot(user) satisfies UserSnapshot;
 
-    const index = users.findIndex((u) => u.userId === snapshot.userId);
+    const existingSnapshotIndex = usersSnapshots.findIndex((u) => u.userId === snapshot.userId);
 
-    if (index >= 0) {
-      users[index] = snapshot;
-    } else {
-      users.push(snapshot);
-    }
-
-    try {
-      const isSuccessfull = await Bun.write(this.filepath, JSON.stringify(users, null, 2));
-
-      if (!(typeof isSuccessfull === "number")) {
-        throw new Error("Something went wrong to persist the aggregate User");
+    if (existingSnapshotIndex >= 0) {
+      const existing = usersSnapshots[existingSnapshotIndex];
+      if (existing?.version !== user.version) {
+        throw new Error("Concurrency conflict: User was modified");
       }
-      user.bumpVersion();
-    } catch (error) {
-      throw error;
+      const nextSnapshot: UserSnapshot = {
+        ...this.toSnapshot(user),
+        version: user.version + 1,
+      };
+
+      usersSnapshots[existingSnapshotIndex] = nextSnapshot;
+    } else {
+      const newSnapshot: UserSnapshot = {
+        ...this.toSnapshot(user),
+        version: 1,
+      };
+      usersSnapshots.push(newSnapshot);
     }
+
+    const result = await Bun.write(this.filepath, JSON.stringify(usersSnapshots, null, 2));
+
+    if (typeof result !== "number") {
+      throw new Error("FAiled to persist User aggergate");
+    }
+
+    user.bumpVersion();
   }
 }

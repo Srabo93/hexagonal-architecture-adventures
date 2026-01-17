@@ -15,13 +15,8 @@ export class Author {
     private _publishedBooks: Map<string, Book>,
   ) {}
 
-  public static create(
-    version: number = 1,
-    id: UserId,
-    name: Name,
-    publishedBooks: Map<string, Book>,
-  ): Author {
-    return new Author(version, id, name, publishedBooks);
+  public static create(id: UserId, name: Name, publishedBooks: Map<string, Book>): Author {
+    return new Author(0, id, name, publishedBooks);
   }
 
   public static rehydrate(

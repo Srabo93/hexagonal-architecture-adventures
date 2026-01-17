@@ -35,10 +35,7 @@ export class CLIUserAdapter implements UserUseCases {
       ),
     );
 
-    const isSuccessfull = await this.userRepo.save(user);
-    if (!isSuccessfull) {
-      throw isSuccessfull;
-    }
+    await this.userRepo.save(user);
 
     return {
       isbn: isbn,
@@ -89,11 +86,7 @@ export class CLIUserAdapter implements UserUseCases {
 
   async createUser(userId: string, name: string, email: string): Promise<User> {
     const user = User.create(UserId.parse(userId), Name.parse(name), Email.parse(email));
-    const isSuccessfull = await this.userRepo.save(user);
 
-    if (!isSuccessfull) {
-      throw isSuccessfull;
-    }
     return user;
   }
 
@@ -101,17 +94,7 @@ export class CLIUserAdapter implements UserUseCases {
     const user = await this.userRepo.findById(UserId.parse(userId));
     if (!user) throw new Error("User not found");
 
-    try {
-      user.untrackBook(ISBN.parse(isbn));
-      const userSaveResult = await this.userRepo.save(user);
-      if (userSaveResult instanceof Error) {
-        throw userSaveResult;
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        throw error;
-      }
-      throw new Error("Failed to untrack book");
-    }
+    user.untrackBook(ISBN.parse(isbn));
+    await this.userRepo.save(user);
   }
 }

@@ -1,7 +1,7 @@
 import type { PublishStatus } from "#Application/ValueObjects/PublishStatus.ts";
 
 export interface AuthorSnapshot {
-  version: nubmer;
+  version: number;
   authorId: string;
   name: string;
   publishedBooks: Array<{

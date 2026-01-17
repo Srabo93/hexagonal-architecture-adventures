@@ -15,7 +15,7 @@ export class JsonAuthorRepository implements AuthorRepository {
     return {
       version: author.version,
       authorId: author.authorId.uuid,
-      name: author.name.fullName(),
+      name: author.name.fullName,
       publishedBooks: Array.from(author.publishedBooks.values()).map((book) => ({
         isbn: book.isbn.isbn,
         title: book.title.title,
@@ -64,28 +64,38 @@ export class JsonAuthorRepository implements AuthorRepository {
       : null;
   }
 
-  async save(author: Author): Promise<boolean | Error> {
-    const authors = await this.loadAllAuthors();
+  async save(author: Author): Promise<void> {
+    const authorsSnapshots = await this.loadAllAuthors();
     const snapshot = this.toSnapshot(author) satisfies AuthorSnapshot;
 
-    const index = authors.findIndex((a) => a.authorId === snapshot.authorId);
+    const existingSnapshotIndex = authorsSnapshots.findIndex(
+      (a) => a.authorId === snapshot.authorId,
+    );
 
-    if (index >= 0) {
-      authors[index] = snapshot;
-    } else {
-      authors.push(snapshot);
-    }
-
-    try {
-      const isSuccessfull = await Bun.write(this.authorFilepath, JSON.stringify(authors, null, 2));
-
-      if (!(typeof isSuccessfull === "number")) {
-        throw new Error("Something went wrong to persist the aggregate Author");
+    if (existingSnapshotIndex >= 0) {
+      const existing = authorsSnapshots[existingSnapshotIndex];
+      if (existing?.version !== author.version) {
+        throw new Error("Concurrency conflict: Author was modified");
       }
-      author.bumpVersion();
-    } catch (error) {
-      throw error;
+      const nextSnapshot: AuthorSnapshot = {
+        ...this.toSnapshot(author),
+        version: author.version + 1,
+      };
+
+      authorsSnapshots[existingSnapshotIndex] = nextSnapshot;
+    } else {
+      const newSnapshot: AuthorSnapshot = {
+        ...this.toSnapshot(author),
+        version: 1,
+      };
+      authorsSnapshots.push(newSnapshot);
     }
-    return true;
+
+    const result = await Bun.write(this.authorFilepath, JSON.stringify(authorsSnapshots, null, 2));
+    if (typeof result !== "number") {
+      throw new Error("Something went wrong to persist the aggregate Author");
+    }
+
+    author.bumpVersion();
   }
 }

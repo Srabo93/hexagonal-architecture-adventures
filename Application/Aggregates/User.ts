@@ -16,8 +16,8 @@ export class User {
     private _reviews: Map<string, Review>,
   ) {}
 
-  static create(version: number = 1, userId: UserId, name: Name, email: Email): User {
-    return new User(version, userId, name, email, new Map(), new Map());
+  static create(userId: UserId, name: Name, email: Email): User {
+    return new User(0, userId, name, email, new Map(), new Map());
   }
 
   static rehydrate(

@@ -36,6 +36,8 @@ describe("CLIUserAdapter (integration)", () => {
     reviewId = ReviewId.parse(crypto.randomUUID()).id;
 
     user = await cliUserAdapter.createUser(userId, "John Doe", "john@example.com");
+
+    await userRepo.save(user);
   });
 
   afterEach(async () => {
