@@ -86,6 +86,7 @@ export class CLIUserAdapter implements UserUseCases {
 
   async createUser(userId: string, name: string, email: string): Promise<User> {
     const user = User.create(UserId.parse(userId), Name.parse(name), Email.parse(email));
+    await this.userRepo.save(user);
 
     return user;
   }
