@@ -13,7 +13,7 @@ program
   .action(async (opts) => {
     const user = await cliUserAdapter.createUser(opts.user, opts.name, opts.email);
     console.log(`${user.userId.uuid}`);
-    console.log(`${user.name.fullName().toString()}\n`);
+    console.log(`${user.name.fullName.toString()}\n`);
     console.log(`${user.email.email}\n`);
   });
 

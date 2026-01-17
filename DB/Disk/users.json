@@ -1,30 +1,15 @@
 [
   {
+    "version": 2,
     "userId": "u-1",
     "name": "Armin Srabo",
     "email": "foo@bar.baz",
     "trackedBooks": [
       {
-        "isbn": "foosdfbar23",
-        "status": "Read"
-      },
-      {
-        "isbn": "asdf234",
-        "status": "WantToRead"
-      },
-      {
-        "isbn": "foobar23",
+        "isbn": "fooasdsdfbar23sd",
         "status": "Read"
       }
     ],
-    "reviews": [
-      {
-        "isbn": "foobar23",
-        "reviewId": "69546889-75bc-4d87-b677-c77d814a3229",
-        "rating": 5,
-        "comment": "This is quite good"
-      }
-    ]
+    "reviews": []
   }
 ]
-

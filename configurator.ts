@@ -1,4 +1,4 @@
-import { db as postgresDB } from "DB/Postgres/client";
+import { createPostgresDB } from "DB/Postgres/client";
 import "reflect-metadata";
 import { container } from "tsyringe";
 
@@ -30,8 +30,9 @@ switch (APP_ENV) {
     break;
 
   case "integration":
+    const db = await createPostgresDB();
     container.register<UserRepository>("UserRepository", {
-      useFactory: () => new PostgresUserRepository(postgresDB),
+      useValue: new PostgresUserRepository(db),
     });
 
     break;
