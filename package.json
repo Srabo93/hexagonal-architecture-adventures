@@ -30,5 +30,8 @@
     "reflect-metadata": "^0.2.2",
     "tsyringe": "^4.10.0"
   },
-  "scripts": {}
+  "scripts": {
+    "db:seed": "bun ./DB/Postgres/index.ts",
+    "db:push": "npx drizzle-kit push"
+  }
 }

@@ -1,14 +1,15 @@
-import { db } from "./client";
+import { createPostgresDB } from "./client";
 import { authors, books, reviews, trackedBooks, users } from "./schema";
 
 async function main() {
+  const db = createPostgresDB();
   // ---------- 2. Create sample users ----------
   const sampleUsers = [
     { id: crypto.randomUUID(), name: "Alice Doe", email: "alice@example.com", version: 1 },
     { id: crypto.randomUUID(), name: "Bob Martin", email: "bob@example.com", version: 1 },
     { id: crypto.randomUUID(), name: "Charlie Harper", email: "charlie@example.com", version: 1 },
   ];
-  await db.insert(users).values(sampleUsers);
+  (await db).insert(users).values(sampleUsers);
 
   // ---------- 3. Create sample authors ----------
   const sampleAuthors = [
@@ -16,7 +17,7 @@ async function main() {
     { id: crypto.randomUUID(), name: "George R.R. Martin", version: 1 },
     { id: crypto.randomUUID(), name: "Brandon Sanderson", version: 1 },
   ];
-  await db.insert(authors).values(sampleAuthors);
+  (await db).insert(authors).values(sampleAuthors);
 
   // ---------- 4. Create sample books ----------
   const sampleBooks = [
@@ -39,7 +40,7 @@ async function main() {
       authorId: sampleAuthors[2].id,
     },
   ];
-  await db.insert(books).values(sampleBooks);
+  (await db).insert(books).values(sampleBooks);
 
   // ---------- 5. Assign tracked books to users ----------
   const trackedBooksData: (typeof trackedBooks.$inferInsert)[] = [];
@@ -55,7 +56,7 @@ async function main() {
     );
   });
 
-  await db.insert(trackedBooks).values(trackedBooksData);
+  (await db).insert(trackedBooks).values(trackedBooksData);
 
   // ---------- 6. Add reviews for some tracked books ----------
   const reviewsData: (typeof reviews.$inferInsert)[] = trackedBooksData.map((tb, i) => ({
@@ -66,10 +67,10 @@ async function main() {
     trackedBookIsbn: tb.isbn,
   }));
 
-  await db.insert(reviews).values(reviewsData);
+  (await db).insert(reviews).values(reviewsData);
 
   console.log("✅ Database seeded successfully!");
-  await client.end();
+  (await db).$client.end();
 }
 
 main().catch((err) => {

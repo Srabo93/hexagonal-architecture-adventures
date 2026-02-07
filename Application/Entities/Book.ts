@@ -38,4 +38,13 @@ export class Book {
   ): Book {
     return new Book(author, published, isbn, title);
   }
+
+  static rehydrate(
+    author: Pick<Author, "authorId" | "name">,
+    published: PublishStatus,
+    isbn: ISBN,
+    title: Title,
+  ): Book {
+    return new Book(author, published, isbn, title);
+  }
 }

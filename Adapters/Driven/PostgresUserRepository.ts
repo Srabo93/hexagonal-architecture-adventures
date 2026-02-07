@@ -65,7 +65,7 @@ export class PostgresUserRepository implements UserRepository {
       const result = await tx
         .update(users)
         .set({
-          name: user.name.fullName(),
+          name: user.name.fullName,
           email: user.email.email,
           version: user.version + 1,
         })
