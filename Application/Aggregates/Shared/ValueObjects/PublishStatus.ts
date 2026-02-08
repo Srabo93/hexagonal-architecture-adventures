@@ -5,7 +5,7 @@ export const PublishStatus = {
 
 export type PublishStatus = (typeof PublishStatus)[keyof typeof PublishStatus];
 
-export function parseReadingStatus(value: string): PublishStatus {
+export function parsePublishStatus(value: string): PublishStatus {
   const statuses = Object.values(PublishStatus) as PublishStatus[];
   if (statuses.includes(value as PublishStatus)) {
     return value as PublishStatus;

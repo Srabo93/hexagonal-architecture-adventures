@@ -7,7 +7,7 @@ export const StockAvailabilityStatus = {
 export type StockAvailabilityStatus =
   (typeof StockAvailabilityStatus)[keyof typeof StockAvailabilityStatus];
 
-export function parseReadingStatus(value: string): StockAvailabilityStatus {
+export function parseStockStatus(value: string): StockAvailabilityStatus {
   const statuses = Object.values(StockAvailabilityStatus) as StockAvailabilityStatus[];
   if (statuses.includes(value as StockAvailabilityStatus)) {
     return value as StockAvailabilityStatus;
