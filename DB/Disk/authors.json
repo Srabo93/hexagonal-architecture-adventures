@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "version": 1,
+    "authorId": "author-123",
+    "name": "John Doe",
+    "publishedBooks": []
+  },
+  {
+    "version": 1,
+    "authorId": "1234",
+    "name": "author bar",
+    "publishedBooks": []
+  }
+]

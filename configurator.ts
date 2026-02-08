@@ -7,6 +7,7 @@ import type { UserRepository } from "#Application/Driven/UserRepository.ts";
 
 import { JsonAuthorRepository } from "#Adapters/Driven/JsonAuthorRepository.ts";
 import { JsonUserRepository } from "#Adapters/Driven/JsonUserRepository.ts";
+import { PostgresAuthorRepository } from "#Adapters/Driven/PostgresAuthorRepository.ts";
 import { PostgresUserRepository } from "#Adapters/Driven/PostgresUserRepository.ts";
 import { CLIAuthorAdapter } from "#Adapters/Driving/CLIAuthorAdapter.ts";
 import { CLIUserAdapter } from "#Adapters/Driving/CLIUserAdapter.ts";
@@ -33,6 +34,9 @@ switch (APP_ENV) {
     const db = await createPostgresDB();
     container.register<UserRepository>("UserRepository", {
       useValue: new PostgresUserRepository(db),
+    });
+    container.register<AuthorRepository>("AuthorRepository", {
+      useValue: new PostgresAuthorRepository(db),
     });
 
     break;

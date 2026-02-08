@@ -85,6 +85,15 @@ program
 
 // Author commands
 program
+  .command("create-author")
+  .requiredOption("--author <authorId>")
+  .requiredOption("--name <name>")
+  .action(async (opts) => {
+    await cliAuthorAdapter.createAuthor(opts.author, opts.name);
+    console.log("Author created successfully");
+  });
+
+program
   .command("publish-book")
   .requiredOption("--author <authorId>")
   .requiredOption("--isbn <isbn>")

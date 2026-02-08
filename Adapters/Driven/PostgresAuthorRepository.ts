@@ -29,9 +29,9 @@ export class PostgresAuthorRepository implements AuthorRepository {
       books.set(
         publishedBook.isbn,
         Book.rehydrate(
-          { authorId: UserId.parse(author.id), name: Name.parse(author.name) },
+          { authorId: UserId.fromPersistence(author.id), name: Name.fromPersistence(author.name) },
           publishedBook.published,
-          ISBN.parse(publishedBook.isbn),
+          ISBN.fromPersistence(publishedBook.isbn),
           Title.parse(publishedBook.title),
         ),
       );
@@ -39,8 +39,8 @@ export class PostgresAuthorRepository implements AuthorRepository {
 
     return Author.rehydrate(
       author.version,
-      UserId.parse(author.id),
-      Name.parse(author.name),
+      UserId.fromPersistence(author.id),
+      Name.fromPersistence(author.name),
       books,
     );
   }
