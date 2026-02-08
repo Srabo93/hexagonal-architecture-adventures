@@ -1,5 +1,5 @@
-import type { ISBN } from "#Application/ValueObjects/ISBN.ts";
-import type { ReadingStatus } from "#Application/ValueObjects/ReadingStatus.ts";
+import type { ISBN } from "#Shared/ValueObjects/ISBN.js";
+import type { ReadingStatus } from "#Aggregates/User/ValueObjects/ReadingStatus.js";
 
 /**
  * @class is an Entity

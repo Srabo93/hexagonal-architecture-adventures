@@ -1,11 +1,11 @@
+import { ISBN } from "#Shared/ValueObjects/ISBN.ts";
+import { PublishStatus } from "#Shared/ValueObjects/PublishStatus.ts";
 import { describe, expect, it } from "bun:test";
 
-import { Author } from "#Application/Aggregates/Author.ts";
-import { ISBN } from "#Application/ValueObjects/ISBN.ts";
-import { Name } from "#Application/ValueObjects/Name.ts";
-import { PublishStatus } from "#Application/ValueObjects/PublishStatus.ts";
-import { Title } from "#Application/ValueObjects/Title.ts";
-import { UserId } from "#Application/ValueObjects/UserId.ts";
+import { Author } from "#Aggregates/Author/Author.ts";
+import { Title } from "#Aggregates/Author/ValueObjects/Title.ts";
+import { Name } from "#Aggregates/User/ValueObjects/Name.ts";
+import { UserId } from "#Aggregates/User/ValueObjects/UserId.ts";
 
 import { Book } from "./Book.ts";
 

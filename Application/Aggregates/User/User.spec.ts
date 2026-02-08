@@ -1,15 +1,15 @@
 import { describe, expect, it } from "bun:test";
 
-import { Review } from "#Application/Entities/Review.ts";
-import { TrackedBook } from "#Application/Entities/TrackedBook.ts";
-import { Comment } from "#Application/ValueObjects/Comment.ts";
-import { Email } from "#Application/ValueObjects/Email.ts";
-import { ISBN } from "#Application/ValueObjects/ISBN.ts";
-import { Name } from "#Application/ValueObjects/Name.ts";
-import { Rating } from "#Application/ValueObjects/Rating.ts";
-import { ReadingStatus } from "#Application/ValueObjects/ReadingStatus.ts";
-import { ReviewId } from "#Application/ValueObjects/ReviewId.ts";
-import { UserId } from "#Application/ValueObjects/UserId.ts";
+import { Review } from "./Entities/Review.js";
+import { TrackedBook } from "./Entities/TrackedBook.js";
+import { Comment } from "./ValueObjects/Comment.js";
+import { Email } from "./ValueObjects/Email.js";
+import { ISBN } from "../Shared/ValueObjects/ISBN.js";
+import { Name } from "./ValueObjects/Name.js";
+import { Rating } from "./ValueObjects/Rating.js";
+import { ReadingStatus } from "./ValueObjects/ReadingStatus.js";
+import { ReviewId } from "./ValueObjects/ReviewId.js";
+import { UserId } from "./ValueObjects/UserId.js";
 
 import { User } from "./User.ts";
 

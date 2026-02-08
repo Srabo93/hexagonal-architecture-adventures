@@ -1,14 +1,13 @@
 import type { PostgresDB } from "DB/Postgres/client";
 import { authors, books } from "DB/Postgres/schema";
-import { and, eq } from "drizzle-orm";
+import { Name, and, eq } from "drizzle-orm";
 
-import { Author } from "#Application/Aggregates/Author.ts";
+import type { Author } from "#Application/Aggregates/Author/Author.ts";
+import type { Book } from "#Application/Aggregates/Author/Entities/Book.ts";
+import { Title } from "#Application/Aggregates/Author/ValueObjects/Title.ts";
+import { ISBN } from "#Application/Aggregates/Shared/ValueObjects/ISBN.ts";
+import type { UserId } from "#Application/Aggregates/User/ValueObjects/UserId.ts";
 import type { AuthorRepository } from "#Application/Driven/AuthorRepository.ts";
-import { Book } from "#Application/Entities/Book.ts";
-import { ISBN } from "#Application/ValueObjects/ISBN.ts";
-import { Name } from "#Application/ValueObjects/Name.ts";
-import { Title } from "#Application/ValueObjects/Title.ts";
-import { UserId } from "#Application/ValueObjects/UserId.ts";
 
 export class PostgresAuthorRepository implements AuthorRepository {
   constructor(private readonly _db: PostgresDB) {}

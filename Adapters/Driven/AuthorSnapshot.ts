@@ -1,4 +1,4 @@
-import type { PublishStatus } from "#Application/ValueObjects/PublishStatus.ts";
+import type { PublishStatus } from "../../Application/Aggregates/Shared/ValueObjects/PublishStatus.js";
 
 export interface AuthorSnapshot {
   version: number;

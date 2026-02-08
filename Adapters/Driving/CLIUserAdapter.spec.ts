@@ -1,13 +1,13 @@
 import { afterEach, beforeEach, describe, expect, it } from "bun:test";
 import { container } from "tsyringe";
 
-import type { User } from "#Application/Aggregates/User.ts";
-import { ReviewId } from "#Application/ValueObjects/ReviewId.ts";
-import { UserId } from "#Application/ValueObjects/UserId.ts";
+import type { User } from "#Application/Aggregates/User/User.ts";
+import { ReviewId } from "#Application/Aggregates/User/ValueObjects/ReviewId.ts";
+import { UserId } from "#Application/Aggregates/User/ValueObjects/UserId.ts";
 
 import { JsonUserRepository } from "#Adapters/Driven/JsonUserRepository.ts";
 
-import { CLIUserAdapter } from "./CLIUserAdapter.ts";
+import { CLIUserAdapter } from "./CLIUserAdapter";
 
 const TEST_FILE_PATH = "./DB/Disk/userstest.json";
 

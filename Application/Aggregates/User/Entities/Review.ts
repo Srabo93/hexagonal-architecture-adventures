@@ -1,6 +1,6 @@
-import type { Comment } from "#Application/ValueObjects/Comment.ts";
-import type { Rating } from "#Application/ValueObjects/Rating.ts";
-import type { ReviewId } from "#Application/ValueObjects/ReviewId.ts";
+import type { Comment } from "#Aggregates/User/ValueObjects/Comment.js";
+import type { Rating } from "#Aggregates/User/ValueObjects/Rating.js";
+import type { ReviewId } from "#Aggregates/User/ValueObjects/ReviewId.js";
 
 /**
  * @class is an Entity

@@ -1,7 +1,7 @@
+import { ISBN } from "#Shared/ValueObjects/ISBN.ts";
 import { describe, expect, it } from "bun:test";
 
-import { ISBN } from "#Application/ValueObjects/ISBN.ts";
-import { ReadingStatus } from "#Application/ValueObjects/ReadingStatus.ts";
+import { ReadingStatus } from "#Aggregates/User/ValueObjects/ReadingStatus.ts";
 
 import { TrackedBook } from "./TrackedBook.ts";
 
@@ -34,4 +34,3 @@ describe("TrackedBook Entity", () => {
     expect(trackedBook.status).toBe(ReadingStatus.read);
   });
 });
-

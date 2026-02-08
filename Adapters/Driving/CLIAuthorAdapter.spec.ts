@@ -1,13 +1,13 @@
 import { afterEach, beforeEach, describe, expect, it } from "bun:test";
 import { container } from "tsyringe";
 
-import { Author } from "#Application/Aggregates/Author.ts";
-import { Book } from "#Application/Entities/Book.ts";
-import { ISBN } from "#Application/ValueObjects/ISBN.ts";
-import { Name } from "#Application/ValueObjects/Name.ts";
-import { PublishStatus } from "#Application/ValueObjects/PublishStatus.ts";
-import { Title } from "#Application/ValueObjects/Title.ts";
-import { UserId } from "#Application/ValueObjects/UserId.ts";
+import { Author } from "#Application/Aggregates/Author/Author.ts";
+import { Book } from "#Application/Aggregates/Author/Entities/Book.ts";
+import { Title } from "#Application/Aggregates/Author/ValueObjects/Title.ts";
+import { ISBN } from "#Application/Aggregates/Shared/ValueObjects/ISBN.ts";
+import { PublishStatus } from "#Application/Aggregates/Shared/ValueObjects/PublishStatus.ts";
+import { Name } from "#Application/Aggregates/User/ValueObjects/Name.ts";
+import { UserId } from "#Application/Aggregates/User/ValueObjects/UserId.ts";
 
 import { JsonAuthorRepository } from "#Adapters/Driven/JsonAuthorRepository.ts";
 
@@ -112,6 +112,8 @@ describe("CLIAuthorAdapter (integration)", () => {
   });
 
   it("should throw when creating author that already exists", async () => {
-    expect(cliAuthorAdapter.createAuthor(authorId, "Test Author")).rejects.toThrow("Author already exists");
+    expect(cliAuthorAdapter.createAuthor(authorId, "Test Author")).rejects.toThrow(
+      "Author already exists",
+    );
   });
 });

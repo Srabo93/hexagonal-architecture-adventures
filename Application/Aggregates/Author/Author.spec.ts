@@ -1,11 +1,11 @@
 import { describe, expect, it } from "bun:test";
 
-import { Book } from "#Application/Entities/Book.ts";
-import { ISBN } from "#Application/ValueObjects/ISBN.ts";
-import { Name } from "#Application/ValueObjects/Name.ts";
-import { PublishStatus } from "#Application/ValueObjects/PublishStatus.ts";
-import { Title } from "#Application/ValueObjects/Title.ts";
-import { UserId } from "#Application/ValueObjects/UserId.ts";
+import { Book } from "./Entities/Book.js";
+import { ISBN } from "../Shared/ValueObjects/ISBN.js";
+import { Name } from "../User/ValueObjects/Name.js";
+import { PublishStatus } from "../Shared/ValueObjects/PublishStatus.js";
+import { Title } from "./ValueObjects/Title.js";
+import { UserId } from "../User/ValueObjects/UserId.js";
 
 import { Author } from "./Author.ts";
 

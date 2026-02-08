@@ -1,4 +1,4 @@
-import type { ReadingStatus } from "#Application/ValueObjects/ReadingStatus.ts";
+import type { ReadingStatus } from "#Application/Aggregates/User/ValueObjects/ReadingStatus.ts";
 
 export interface UserDTO {
   userId: string;

@@ -2,15 +2,15 @@ import { createPostgresDB } from "DB/Postgres/client";
 import "reflect-metadata";
 import { container } from "tsyringe";
 
-import type { AuthorRepository } from "#Application/Driven/AuthorRepository.ts";
-import type { UserRepository } from "#Application/Driven/UserRepository.ts";
+import type { AuthorRepository } from "./Application/Driven/AuthorRepository.js";
+import type { UserRepository } from "./Application/Driven/UserRepository.js";
 
-import { JsonAuthorRepository } from "#Adapters/Driven/JsonAuthorRepository.ts";
-import { JsonUserRepository } from "#Adapters/Driven/JsonUserRepository.ts";
-import { PostgresAuthorRepository } from "#Adapters/Driven/PostgresAuthorRepository.ts";
-import { PostgresUserRepository } from "#Adapters/Driven/PostgresUserRepository.ts";
-import { CLIAuthorAdapter } from "#Adapters/Driving/CLIAuthorAdapter.ts";
-import { CLIUserAdapter } from "#Adapters/Driving/CLIUserAdapter.ts";
+import { JsonAuthorRepository } from "./Adapters/Driven/JsonAuthorRepository.js";
+import { JsonUserRepository } from "./Adapters/Driven/JsonUserRepository.js";
+import { PostgresAuthorRepository } from "./Adapters/Driven/PostgresAuthorRepository.js";
+import { PostgresUserRepository } from "./Adapters/Driven/PostgresUserRepository.js";
+import { CLIAuthorAdapter } from "./Adapters/Driving/CLIAuthorAdapter.js";
+import { CLIUserAdapter } from "./Adapters/Driving/CLIUserAdapter.js";
 
 type AppEnv = "dev" | "integration" | "prod";
 

@@ -1,5 +1,5 @@
-import type { Author } from "#Application/Aggregates/Author.ts";
-import type { UserId } from "#Application/ValueObjects/UserId.ts";
+import type { Author } from "#Aggregates/Author/Author.js";
+import type { UserId } from "#Aggregates/User/ValueObjects/UserId.js";
 
 export interface AuthorRepository {
   findById(id: UserId): Promise<Author | null>;

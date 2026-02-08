@@ -1,14 +1,14 @@
 import { afterEach, beforeEach, describe, expect, it } from "bun:test";
 
-import { User } from "#Application/Aggregates/User.ts";
-import { Review } from "#Application/Entities/Review.ts";
-import { Comment } from "#Application/ValueObjects/Comment.ts";
-import { Email } from "#Application/ValueObjects/Email.ts";
-import { ISBN } from "#Application/ValueObjects/ISBN.ts";
-import { Name } from "#Application/ValueObjects/Name.ts";
-import { Rating } from "#Application/ValueObjects/Rating.ts";
-import { ReviewId } from "#Application/ValueObjects/ReviewId.ts";
-import { UserId } from "#Application/ValueObjects/UserId.ts";
+import { ISBN } from "#Application/Aggregates/Shared/ValueObjects/ISBN.ts";
+import { Review } from "#Application/Aggregates/User/Entities/Review.ts";
+import { User } from "#Application/Aggregates/User/User.ts";
+import { Comment } from "#Application/Aggregates/User/ValueObjects/Comment.ts";
+import { Email } from "#Application/Aggregates/User/ValueObjects/Email.ts";
+import { Name } from "#Application/Aggregates/User/ValueObjects/Name.ts";
+import { Rating } from "#Application/Aggregates/User/ValueObjects/Rating.ts";
+import { ReviewId } from "#Application/Aggregates/User/ValueObjects/ReviewId.ts";
+import { UserId } from "#Application/Aggregates/User/ValueObjects/UserId.ts";
 
 import { JsonUserRepository } from "./JsonUserRepository";
 

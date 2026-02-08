@@ -1,7 +1,7 @@
 import { describe, expect, it } from "bun:test";
 
-import { StockAmount } from "#Application/ValueObjects/StockAmount.ts";
-import { StockAvailabilityStatus } from "#Application/ValueObjects/StockAvailabilityStatus.ts";
+import { StockAmount } from "../ValueObjects/StockAmount.js";
+import { StockAvailabilityStatus } from "../ValueObjects/StockAvailabilityStatus.js";
 
 import { Stock } from "./Stock.ts";
 

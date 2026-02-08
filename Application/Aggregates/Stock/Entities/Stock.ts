@@ -1,8 +1,8 @@
-import { StockAmount } from "#Application/ValueObjects/StockAmount.ts";
+import { StockAmount } from "#Aggregates/Stock/ValueObjects/StockAmount.js";
 import {
   StockAvailabilityStatus,
   setStatus,
-} from "#Application/ValueObjects/StockAvailabilityStatus.ts";
+} from "#Aggregates/Stock/ValueObjects/StockAvailabilityStatus.js";
 
 /**
  * @class is an Entity

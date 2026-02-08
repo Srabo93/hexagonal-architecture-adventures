@@ -1,11 +1,11 @@
 import { inject, injectable } from "tsyringe";
 
+import { Author } from "#Application/Aggregates/Author/Author.ts";
+import { ISBN } from "#Application/Aggregates/Shared/ValueObjects/ISBN.ts";
+import { Name } from "#Application/Aggregates/User/ValueObjects/Name.ts";
+import { UserId } from "#Application/Aggregates/User/ValueObjects/UserId.ts";
 import type { AuthorRepository } from "#Application/Driven/AuthorRepository.ts";
 import type { AuthorUseCases } from "#Application/Driving/AuthorUseCases.ts";
-import { Author } from "#Application/Aggregates/Author.ts";
-import { ISBN } from "#Application/ValueObjects/ISBN.ts";
-import { Name } from "#Application/ValueObjects/Name.ts";
-import { UserId } from "#Application/ValueObjects/UserId.ts";
 
 @injectable()
 export class CLIAuthorAdapter implements AuthorUseCases {
@@ -18,7 +18,7 @@ export class CLIAuthorAdapter implements AuthorUseCases {
     }
 
     const author = Author.create(UserId.parse(authorId), Name.parse(name), new Map());
-    
+
     await this.authorRepo.save(author);
   }
 

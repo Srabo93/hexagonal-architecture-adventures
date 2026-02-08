@@ -1,8 +1,8 @@
 import { describe, expect, it } from "bun:test";
 
-import { Comment } from "#Application/ValueObjects/Comment.ts";
-import { Rating } from "#Application/ValueObjects/Rating.ts";
-import { ReviewId } from "#Application/ValueObjects/ReviewId.ts";
+import { Comment } from "../ValueObjects/Comment.js";
+import { Rating } from "../ValueObjects/Rating.js";
+import { ReviewId } from "../ValueObjects/ReviewId.js";
 
 import { Review } from "./Review.ts";
 

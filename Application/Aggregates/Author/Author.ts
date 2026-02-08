@@ -1,8 +1,9 @@
-import type { Book } from "#Application/Entities/Book.ts";
-import type { ISBN } from "#Application/ValueObjects/ISBN.ts";
-import type { Name } from "#Application/ValueObjects/Name.ts";
-import { PublishStatus } from "#Application/ValueObjects/PublishStatus.ts";
-import type { UserId } from "#Application/ValueObjects/UserId.ts";
+import type { ISBN } from "#Shared/ValueObjects/ISBN.ts";
+import { PublishStatus } from "#Shared/ValueObjects/PublishStatus.ts";
+
+import type { Book } from "#Aggregates/Author/Entities/Book.ts";
+import type { Name } from "#Aggregates/User/ValueObjects/Name.ts";
+import type { UserId } from "#Aggregates/User/ValueObjects/UserId.ts";
 
 /**
  * @class is an Aggregate Root

@@ -1,10 +1,10 @@
-import { Review } from "#Application/Entities/Review.ts";
-import { TrackedBook } from "#Application/Entities/TrackedBook.ts";
-import type { Email } from "#Application/ValueObjects/Email.ts";
-import { ISBN } from "#Application/ValueObjects/ISBN.ts";
-import type { Name } from "#Application/ValueObjects/Name.ts";
-import { ReadingStatus } from "#Application/ValueObjects/ReadingStatus.ts";
-import type { UserId } from "#Application/ValueObjects/UserId.ts";
+import { Review } from "#Aggregates/User/Entities/Review.js";
+import { TrackedBook } from "#Aggregates/User/Entities/TrackedBook.js";
+import type { Email } from "#Aggregates/User/ValueObjects/Email.js";
+import { ISBN } from "#Shared/ValueObjects/ISBN.js";
+import type { Name } from "#Aggregates/User/ValueObjects/Name.js";
+import { ReadingStatus } from "#Aggregates/User/ValueObjects/ReadingStatus.js";
+import type { UserId } from "#Aggregates/User/ValueObjects/UserId.js";
 
 export class User {
   private constructor(

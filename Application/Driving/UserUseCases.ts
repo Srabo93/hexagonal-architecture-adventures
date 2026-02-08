@@ -1,9 +1,9 @@
-import type { User } from "#Application/Aggregates/User.ts";
-
 import type { UserReviewDTO, UserTrackedBookDTO } from "#Adapters/Driving/UserDTO.ts";
 
+import type * as User from "../Aggregates/User/User.js";
+
 export interface UserUseCases {
-  createUser(userId: string, name: string, email: string): Promise<User>;
+  createUser(userId: string, name: string, email: string): Promise<User.User>;
   trackBook(userId: string, isbn: string, status: string): Promise<UserTrackedBookDTO>;
   writeReview(
     userId: string,

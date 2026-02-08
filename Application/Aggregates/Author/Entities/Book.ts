@@ -1,7 +1,7 @@
-import type { Author } from "#Application/Aggregates/Author.ts";
-import type { ISBN } from "#Application/ValueObjects/ISBN.ts";
-import { PublishStatus } from "#Application/ValueObjects/PublishStatus.ts";
-import type { Title } from "#Application/ValueObjects/Title.ts";
+import type { Author } from "#Aggregates/Author/Author.js";
+import type { ISBN } from "#Shared/ValueObjects/ISBN.js";
+import { PublishStatus } from "#Shared/ValueObjects/PublishStatus.js";
+import type { Title } from "#Aggregates/Author/ValueObjects/Title.js";
 
 /**
  * @class is an Entity
