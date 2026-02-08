@@ -97,4 +97,21 @@ describe("CLIAuthorAdapter (integration)", () => {
 
     expect(cliAuthorAdapter.publishBook(otherAuthorId, isbn)).rejects.toThrow("Book not found");
   });
+
+  it("should create a new author", async () => {
+    const newAuthorId = UserId.parse(crypto.randomUUID()).uuid;
+    const newAuthorName = "New Author";
+
+    await cliAuthorAdapter.createAuthor(newAuthorId, newAuthorName);
+
+    const createdAuthor = await authorRepo.findById(UserId.parse(newAuthorId));
+    expect(createdAuthor).toBeDefined();
+    expect(createdAuthor?.authorId.uuid).toBe(newAuthorId);
+    expect(createdAuthor?.name.fullName).toBe(newAuthorName);
+    expect(createdAuthor?.publishedBooks.size).toBe(0);
+  });
+
+  it("should throw when creating author that already exists", async () => {
+    expect(cliAuthorAdapter.createAuthor(authorId, "Test Author")).rejects.toThrow("Author already exists");
+  });
 });

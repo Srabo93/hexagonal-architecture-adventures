@@ -12,6 +12,10 @@ export class StockAmount {
     return new StockAmount(raw);
   }
 
+  public static fromPersistence(value: number) {
+    return new StockAmount(value);
+  }
+
   public get value(): number {
     return this._value;
   }

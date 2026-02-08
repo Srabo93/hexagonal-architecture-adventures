@@ -52,18 +52,18 @@ export class JsonUserRepository implements UserRepository {
     const persistedUser = users.find((u) => u.userId === id.uuid);
     const reviews = new Map(
       persistedUser?.reviews.map((r) => [
-        ISBN.parse(r.isbn).isbn,
+        r.isbn,
         Review.create(
-          ReviewId.parse(r.reviewId),
-          Rating.parseInteger(r.rating),
-          Comment.parse(r.comment),
+          ReviewId.fromPersistence(r.reviewId),
+          Rating.fromPersistence(r.rating),
+          Comment.fromPersistence(r.comment),
         ),
       ]),
     );
     const trackedBooks = new Map(
       persistedUser?.trackedBooks.map((tb) => [
-        ISBN.parse(tb.isbn).isbn,
-        TrackedBook.create(ISBN.parse(tb.isbn), tb.status),
+        tb.isbn,
+        TrackedBook.create(ISBN.fromPersistence(tb.isbn), tb.status),
       ]),
     );
 

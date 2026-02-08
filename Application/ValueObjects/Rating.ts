@@ -1,7 +1,7 @@
 export class Rating {
   private constructor(private _rating: number) {}
 
-  public static parseInteger(int: number) {
+  public static parse(int: number) {
     if (!Number.isInteger(int)) {
       throw new Error("no integer provided");
     }

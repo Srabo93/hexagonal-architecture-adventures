@@ -32,7 +32,7 @@ export class PostgresAuthorRepository implements AuthorRepository {
           { authorId: UserId.fromPersistence(author.id), name: Name.fromPersistence(author.name) },
           publishedBook.published,
           ISBN.fromPersistence(publishedBook.isbn),
-          Title.parse(publishedBook.title),
+          Title.fromPersistence(publishedBook.title),
         ),
       );
     });

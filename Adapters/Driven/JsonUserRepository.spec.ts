@@ -38,7 +38,7 @@ describe("JsonUserRepository (integration)", () => {
     const isbn = ISBN.parse("9783161484100");
     const bookReview = Review.create(
       ReviewId.parse(crypto.randomUUID()),
-      Rating.parseInteger(5),
+      Rating.parse(5),
       Comment.parse("Excellent book"),
     );
 

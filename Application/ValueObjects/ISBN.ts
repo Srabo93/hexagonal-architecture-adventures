@@ -2,7 +2,7 @@ export class ISBN {
   constructor(private _isbn: string) {}
 
   public static parse(raw: string): ISBN {
-    const normalized = raw.trim();
+    const normalized = raw.trim().replaceAll("-", "").replaceAll(" ", "");
 
     if (normalized.length === 0) {
       throw new Error("isbn cannot be empty");

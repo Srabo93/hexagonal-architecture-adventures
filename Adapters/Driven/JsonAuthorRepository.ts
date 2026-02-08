@@ -44,12 +44,12 @@ export class JsonAuthorRepository implements AuthorRepository {
         book.isbn,
         Book.create(
           {
-            authorId: UserId.parse(persistedAuthor.authorId),
-            name: Name.parse(persistedAuthor.name),
+            authorId: UserId.fromPersistence(persistedAuthor.authorId),
+            name: Name.fromPersistence(persistedAuthor.name),
           },
           book.published,
-          ISBN.parse(book.isbn),
-          Title.parse(book.title),
+          ISBN.fromPersistence(book.isbn),
+          Title.fromPersistence(book.title),
         ),
       ]),
     );
@@ -57,8 +57,8 @@ export class JsonAuthorRepository implements AuthorRepository {
     return persistedAuthor
       ? Author.rehydrate(
           persistedAuthor.version,
-          UserId.parse(persistedAuthor.authorId),
-          Name.parse(persistedAuthor.name),
+          UserId.fromPersistence(persistedAuthor.authorId),
+          Name.fromPersistence(persistedAuthor.name),
           books,
         )
       : null;

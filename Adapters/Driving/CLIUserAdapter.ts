@@ -30,7 +30,7 @@ export class CLIUserAdapter implements UserUseCases {
       ISBN.parse(isbn),
       Review.create(
         ReviewId.parse(review.reviewId),
-        Rating.parseInteger(Number(review.rating)),
+        Rating.parse(Number(review.rating)),
         Comment.parse(review.comment),
       ),
     );

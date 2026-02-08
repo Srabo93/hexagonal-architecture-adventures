@@ -15,6 +15,10 @@ export class Title {
     return new Title(normalized);
   }
 
+  public static fromPersistence(value: string) {
+    return new Title(value);
+  }
+
   public get title(): string {
     return this.value;
   }
